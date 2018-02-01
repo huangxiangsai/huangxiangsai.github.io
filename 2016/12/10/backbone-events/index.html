@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Backbone系列篇之Backbone.Events源码解析 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Backbone源码阅读首篇，主要讲了Backbone.Events，对内部代码进行了分析。">
+<meta name="keywords" content="JavaScript,Backbone,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Backbone系列篇之Backbone.Events源码解析">
+<meta property="og:url" content="http://www.devsai.com/2016/12/10/backbone-events/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="Backbone源码阅读首篇，主要讲了Backbone.Events，对内部代码进行了分析。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/images/2016/backbone/backbone-events-api.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/backbone/events-02.png">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Backbone系列篇之Backbone.Events源码解析">
+<meta name="twitter:description" content="Backbone源码阅读首篇，主要讲了Backbone.Events，对内部代码进行了分析。">
+<meta name="twitter:image" content="http://www.devsai.com/images/2016/backbone/backbone-events-api.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-backbone-events" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/10/backbone-events/" class="article-date">
+  <time datetime="2016-12-09T16:00:00.000Z" itemprop="datePublished">2016-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Backbone系列篇之Backbone.Events源码解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>一直想着读读源码，但一直没有找到目标，一些流行的框架，大多代码量不少。</p>
+<p>就像是面对着高耸如云的山峰，抬头望去，就已经没了攀登的勇气。</p>
+<p>俗话说的好，凡事得一步一个脚印，一口吃不出个胖子。</p>
+<p>大框架搞不定，可以短小精悍的类库下手。</p>
+<p>打BOSS前必定要杀掉无数的小怪。</p>
+<p>而，backbone就是个非常好的选择，加上它的注释也就2000行左右。</p>
+<p>也在网上看到一些对Backbone源码的解析，但或多或少的有以下几个情况：</p>
+<ul>
+<li>一些Backbone解析，只做了部分就停更了</li>
+<li>Backbone解析的，据现在已有年代，解析的源码与现在的有略微的出入</li>
+<li>对源码的解析，多少带有阅读者的想法</li>
+</ul>
+<p>最后一点，也是最重要的一点，并不是阅读者的想法不对，<br>而是想，如果自己去阅读，或许能得到不同的想法。</p>
+<p>而且对于阅读源码的来说，他从源码中获得的收获，一定是要比写出来的多。</p>
+<p>我建议大家去看别人对一些源码的解析，更建议自己也去试着读读源码。<br>这样，自己对源码更深入理解的同时，还可以对别人做的分析，进行更深层次的探讨。</p>
+<h1 id="Backbone-Events-事件机制"><a href="#Backbone-Events-事件机制" class="headerlink" title="Backbone.Events 事件机制"></a>Backbone.Events 事件机制</h1><p>本文中会出现部分的源码，点击这里<a href="https://github.com/jashkenas/backbone" target="_blank">查看</a>完整源码</p>
+<p>Events 相关代码有200多行</p>
+<p>对外定义的方法有:</p>
+<p><img src="/images/2016/backbone/backbone-events-api.png" alt=""></p>
+<p>代码开始，就先定义了Backbone.Events，这是为什么呢</p>
+<p>因为Backbone的其他部分对象都是继承了Events，也是就说,Backbone.Model,Backbone.Collection,Backbone.View,Backbone.Router</p>
+<p>都可以使用Events的属性。</p>
+<p>Backbone.Events也可以使用在任何的对象上，就像这样:<code>var o=_.extend({},Backbone.Events);</code></p>
+<p>然后<code>o</code>对象，就可以随心所欲的做到订阅/发布了。</p>
+<p>上述的API方法可以分三部分：</p>
+<p><img src="/images/2016/backbone/events-02.png" alt=""></p>
+<ul>
+<li>绑定事件 <strong>on,listenTo,once,bind</strong> </li>
+</ul>
+<p>首先，<code>on</code>和<code>bind</code>是完全一样的，只是取了个别名。方便大家的使用习惯。</p>
+<p><code>listenTo</code>官方说明是对<code>on</code>控制反转。如何反转，后面具体说明。</p>
+<p><code>once</code>就很好理解了，注册的事件只执行一次,完了自动解绑。这也就是为什么下面的解绑方法中没有对其解绑的动作了。（一次性筷子，用完就扔，不需要洗）</p>
+<ul>
+<li>解绑事件 <strong>off,stopListening,unbind</strong> </li>
+</ul>
+<p>同样的<code>off</code>与<code>unbind</code>除了方法名不同外，作用完全一样。</p>
+<p><code>stopListening</code>也是用来解绑的，但它比较厉害了，对调用对象解绑解的彻彻底底。</p>
+<ul>
+<li>触发事件 <strong>trigger</strong>  </li>
+</ul>
+<p>通过此方法可以触发单个或同时触发多个事件。<code>trigger(eventname)</code>， 第一个参数为事件名，其他的参数为传给事件执行函数的参数。</p>
+<h2 id="listenTo-on的控制反转"><a href="#listenTo-on的控制反转" class="headerlink" title="listenTo(on的控制反转)"></a>listenTo(<code>on</code>的控制反转)</h2><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span>.listenTo(other, <span class="keyword">event</span>, callback)</span><br></pre></td></tr></table></figure>
+<p>让 object 监听 另一个（other）对象上的一个特定事件。不使用other.on(event, callback, object)，而使用这种形式的优点是：listenTo允许 object来跟踪这个特定事件，<br>并且以后可以一次性全部移除它们。callback总是在object上下文环境中被调用。</p>
+<p>这里有个概念叫<code>Inversion of Control(IoC控制反转)</code><br>这是种主从关系的转变，一种是A直接控制B，另一种用控制器（<code>listenTo</code>方法）间接的让A控制B。</p>
+<p>通过<code>listenTo</code>把原本<code>other</code>主导绑定监听事件，变成了由<code>object</code>主导绑定监听事件了。</p>
+<h2 id="与on比较"><a href="#与on比较" class="headerlink" title="与on比较"></a>与<code>on</code>比较</h2><p>从功能上来说，on,listenTo是一样的。</p>
+<p>来看个例子：</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> changeHandler = <span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">&#123;&#125;</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">model</span>.<span class="title">on</span><span class="params">(<span class="string">'change:name'</span>,changeHandler,view)</span>;</span></span><br></pre></td></tr></table></figure>
+<p>或者可以这样</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view.listenTo(<span class="keyword">model</span>,<span class="string">'change:name'</span>,changeHandler);</span><br></pre></td></tr></table></figure>
+<p>两种方式的作用是一样的，当model的name发生改变时，调用view中的方法。</p>
+<p>可当view中不止有一个model时呢</p>
+<p>功能上来讲，还是无差别，但如果想要当离开页面时view需要销毁，view中model绑定的事件也需要注销时，看看两种绑定方式，对面这问题时会怎么办</p>
+<p><strong>on</strong>的解绑</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">view</span> = &#123;</span><br><span class="line">    changeName :function(name)&#123;</span><br><span class="line">       <span class="comment">//doing something</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">model.<span class="keyword">on</span>('change:name',<span class="keyword">view</span>.changeName,<span class="keyword">view</span>);</span><br><span class="line">model2.<span class="keyword">on</span>('change:name',<span class="keyword">view</span>.changeName,<span class="keyword">view</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//view离开时，model如何解绑</span></span><br><span class="line">model.off('change:name',<span class="keyword">view</span>.changeName,<span class="keyword">view</span>);</span><br><span class="line">model2.off('change:name',<span class="keyword">view</span>.changeName,<span class="keyword">view</span>);</span><br></pre></td></tr></table></figure>
+<p>有多个model的话，需要进行多次的解绑操作。</p>
+<p>再来看看<strong>listenTo</strong>的解绑</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">view</span>.listenTo(model,'change:name',<span class="keyword">view</span>.changeName)<span class="comment">;</span></span><br><span class="line"><span class="keyword">view</span>.listenTo(model2,'change:name',<span class="keyword">view</span>.changeName)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//解绑</span></span><br><span class="line"><span class="keyword">view</span>.stopListening()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>并不需要做更多的操作就能把view相关的监听事件给解绑。</p>
+<p>而通过查看<code>stopListening</code></p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Events.stopListening = function(obj, name, callback) &#123;</span><br><span class="line">  <span class="keyword">var</span> listeningTo = <span class="keyword">this</span>._listeningTo;</span><br><span class="line">  <span class="keyword">if</span> (!listeningTo) <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> ids = obj ? [obj._listenId] : _.keys(listeningTo);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; ids.length; i++) &#123;</span><br><span class="line">    <span class="keyword">var</span> listening = listeningTo[ids[i]];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If listening doesn't exist, this object is not currently</span></span><br><span class="line">    <span class="comment">// listening to obj. Break out early.</span></span><br><span class="line">    <span class="keyword">if</span> (!listening) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    listening.obj.off(name, callback, <span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>内部执行了多次的<code>.off(name, callback, this)</code>，相当于内部给做了用<code>on</code>绑定后的解绑操作。</p>
+<h2 id="深入了解listenTo"><a href="#深入了解listenTo" class="headerlink" title="深入了解listenTo"></a>深入了解listenTo</h2><p>先举个例子,执行<strong>view.listenTo(model,’change’,changeHandler)</strong>， 执行过程看下面注释：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Events.listenTo = function(obj, name, callback) &#123;</span><br><span class="line">  <span class="comment">//  obj = model</span></span><br><span class="line">  <span class="keyword">if</span> (!obj) <span class="keyword">return</span> <span class="keyword">this</span>;	</span><br><span class="line"></span><br><span class="line">  <span class="comment">// obj._listenId 不存在，执行 id = (obj._listenId = _.uniqueId('l'))  == 'l1'</span></span><br><span class="line">  <span class="keyword">var</span> id = obj._listenId || (obj._listenId = _.uniqueId(<span class="string">'l'</span>));  </span><br><span class="line"></span><br><span class="line">  <span class="comment">// this._listeningTo 不存在，执行 listeningTo = (this._listeningTo = &#123;&#125;)</span></span><br><span class="line">  <span class="keyword">var</span> listeningTo = <span class="keyword">this</span>._listeningTo || (<span class="keyword">this</span>._listeningTo = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// listening = this._listeningTo[obj._listenId]  : undefined ==  (&#123;&#125;)['l1']</span></span><br><span class="line">  <span class="keyword">var</span> listening = listeningTo[id];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// true 执行条件语句</span></span><br><span class="line">  <span class="keyword">if</span> (!listening) &#123;</span><br><span class="line">    <span class="comment">// this._listenId == undefined , thisid = (this._listenId = _.uniqueId('l')) == 'l2'</span></span><br><span class="line">    <span class="keyword">var</span> thisId = <span class="keyword">this</span>._listenId || (<span class="keyword">this</span>._listenId = _.uniqueId(<span class="string">'l'</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// this._listeningTo[obj._listenId]  = &#123;....&#125;</span></span><br><span class="line">    listening = listeningTo[id] = &#123;obj: obj, objId: id, id: thisId, listeningTo: listeningTo, count: <span class="number">0</span>&#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  internalOn(obj, name, callback, <span class="keyword">this</span>, listening);</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上述代码执行中，会调用内部函数<code>onApi</code>（在<code>internalOn</code>内调用），执行<code>handlers.push({callback: callback, context: context, ctx: context || ctx, listening: listening});</code></p>
+<p>执行完后：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">model._listenId = <span class="string">'l1'</span></span><br><span class="line"><span class="keyword">view</span>._listenId = <span class="string">'l2'</span></span><br><span class="line"><span class="keyword">view</span>._listeningTo = &#123;<span class="string">'l1'</span> : &#123;obj:model,objId : <span class="string">'l1'</span>,id : <span class="string">'l2'</span>,listeningTo: <span class="keyword">view</span>._listeningTo,<span class="built_in">count</span> : <span class="number">0</span>&#125;&#125;</span><br><span class="line">model._listeners = &#123;<span class="string">'l2'</span> : <span class="keyword">view</span>._listeningTo[<span class="string">'l1'</span>] &#125;</span><br><span class="line">model._event = &#123;<span class="string">'change'</span>:[&#123;callback: changeHandler, contex<span class="variable">t:</span> <span class="keyword">view</span>, ctx: <span class="keyword">view</span>, listenin<span class="variable">g:</span> <span class="keyword">view</span>._listeningTo[<span class="string">'l1'</span>]&#125;]&#125;</span><br></pre></td></tr></table></figure>
+<p>view._listeningTo 的key 为model._listenId ， 也就是说，增加一个model实例，就会增加一个key，<br>例如再执行：<code>view.listenTo(model2,&#39;change&#39;,changeHandler)</code>。</p>
+<p>所以通过_listeningTo属性，能够知道view与多少个model有关联。</p>
+<p>这样，当执行<code>view.stopListening()</code>时，就能把model,model2上的监听事件全部移除了。</p>
+<p>同样的,<br>model._listeners的key 为view._listenId, 例如:view2.listenTo(model,’change’,changeHandler)，<br>那么会再生成一个view2._listenId, model._listeners的key将多一个。</p>
+<h2 id="为什么Backbone-Events会有listenTo和stopListening"><a href="#为什么Backbone-Events会有listenTo和stopListening" class="headerlink" title="为什么Backbone.Events会有listenTo和stopListening"></a>为什么Backbone.Events会有<strong>listenTo</strong>和<strong>stopListening</strong></h2><p>在很多的类库中使用的事件机制都是没有这两个方法的功能。</p>
+<p>这两个方法更像是专为view,model而生的。<br>通过这两个方法可以方便的对view相关的对象监听事件进行跟踪，解绑。</p>
+<h2 id="事件对象上的-events"><a href="#事件对象上的-events" class="headerlink" title="事件对象上的_events"></a>事件对象上的<code>_events</code></h2><p>如上的<code>model._events</code>，我们来分析下它里面有些什么：</p>
+<p><code>model._events</code>它是一个对象 <code>: { key1 : value1, key2 : value2 , key3 : value3 ....}</code>。以事件名为key, value则是一组组数，数组内的每一元素又是一个对象</p>
+<p>元素中的对象内容如下：</p>
+<ul>
+<li>callback  事件的回调函数</li>
+<li>context   回调函数的上下文对象（即当调用<code>on</code>时，为context参数，当调用<code>view.listenTo(....)</code>时，为调用的对象如：view。）</li>
+<li>ctx        为context ，当context不存在时，为被监听的对象，如：model.on(…)或view.on(model,…)中的model</li>
+<li>listening 其实就是view._listeningTo中的某个属性值，可以看成: listening == view._listeningTo[‘l1’]</li>
+</ul>
+<h2 id="context与ctx"><a href="#context与ctx" class="headerlink" title="context与ctx"></a><code>context</code>与<code>ctx</code></h2><p>如上所述，每个元素里的 <code>context</code>与<code>ctx</code>几乎一样，那为什么需要两个属性呢。</p>
+<p>通过阅读<code>off</code>方法及<code>trigger</code>方法就会知道，上面两属性在这两个方法中分别被使用了。</p>
+<p>在<code>off</code>里需要对<code>context</code>进行比较决定是否要删除对应的事件，所以<code>model._events</code>中保存下来的 context,必须是未做修改的。</p>
+<p>而<code>trigger</code>里在执行回调函数时，需要指定其作用域，当绑定事件时没有给定作用域，则会使用被监听的对象当回调函数的作用域。</p>
+<p>比如下面的代码：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var <span class="keyword">model</span> = &#123;  name : <span class="string">'devsai'</span>  &#125;</span><br><span class="line">var changeHandler = function()&#123; console.<span class="built-in">log</span>(this.name)&#125;</span><br><span class="line">_.extend(<span class="keyword">model</span>,Backbone.Events)</span><br><span class="line"><span class="keyword">model</span>.on(<span class="string">'change'</span>,changeHandler)</span><br><span class="line"><span class="keyword">model</span>.trigger(<span class="string">'change'</span>);  <span class="comment">// print :  devsai</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">model</span>.off();</span><br><span class="line">var context = &#123; name : <span class="string">'SAI'</span>&#125;</span><br><span class="line"><span class="keyword">model</span>.on(<span class="string">'change'</span>,changeHandler,context)</span><br><span class="line"><span class="keyword">model</span>.trigger(<span class="string">'change'</span>);  <span class="comment">// print : SAI</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">model</span>.off()</span><br><span class="line">var view = &#123; name : <span class="string">'SAI listenTo'</span> &#125;</span><br><span class="line">_.extend(view,Backbone.Events)</span><br><span class="line">view.listenTo(<span class="keyword">model</span>,<span class="string">'change'</span>,changeHandler)</span><br><span class="line"><span class="keyword">model</span>.trigger(<span class="string">'change'</span>)   <span class="comment">// print : SAI listenTo</span></span><br></pre></td></tr></table></figure>
+<p>在调用<code>trigger</code>时，可能会执行这部分代码</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(ev = events[i])<span class="selector-class">.callback</span><span class="selector-class">.call</span>(ev.ctx)</span><br></pre></td></tr></table></figure>
+<p>但这边，这种写法我是有疑惑的，就如 <code>ev.ctx</code>在没有context的情况下， ctx 才是obj(即被监听的对象),<br>为何不去掉ctx属性, 然后在<code>trigger</code>时，做context判断</p>
+<p>例如把代码改成： </p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">ev</span> = events[i]).callback.call(<span class="built_in">ev</span>.<span class="built_in">context</span> || <span class="built_in">ev</span>.obj)</span><br></pre></td></tr></table></figure>
+<p>这样ctx属性就可以不去定义了。理解起来更直观。 </p>
+<h2 id="内部函数-eventsApi"><a href="#内部函数-eventsApi" class="headerlink" title="内部函数 eventsApi"></a>内部函数 <strong>eventsApi</strong></h2><p><code>eventsApi</code>是内部的函数，所有对外的接口，都会直接或间接的调用它。复用率极高。</p>
+<p>那<code>eventsApi</code>主要是干什么的呢。</p>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var eventsApi = function(iteratee, events, <span class="built_in">name</span>, callback, opts) &#123;</span><br><span class="line">  var i = <span class="number">0</span>, names;</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">name</span> &amp;&amp; <span class="built_in">typeof</span> <span class="built_in">name</span> === <span class="string">'object'</span>) &#123;</span><br><span class="line">    <span class="comment">// Handle event maps.</span></span><br><span class="line">    <span class="keyword">if</span> (callback !== void <span class="number">0</span> &amp;&amp; <span class="string">'context'</span> <span class="built_in">in</span> opts &amp;&amp; opts.context === void <span class="number">0</span>) opts.context = callback;</span><br><span class="line">    <span class="keyword">for</span> (names = _.keys(<span class="built_in">name</span>); i &lt; names.length ; i++) &#123;</span><br><span class="line">      events = eventsApi(iteratee, events, names[i], <span class="built_in">name</span>[names[i]], opts);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">name</span> &amp;&amp; eventSplitter.test(<span class="built_in">name</span>)) &#123;</span><br><span class="line">    <span class="comment">// Handle space-separated event names by delegating them individually.</span></span><br><span class="line">    <span class="keyword">for</span> (names = <span class="built_in">name</span>.split(eventSplitter); i &lt; names.length; i++) &#123;</span><br><span class="line">      events = iteratee(events, names[i], callback, opts);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Finally, standard events.</span></span><br><span class="line">    events = iteratee(events, <span class="built_in">name</span>, callback, opts);</span><br><span class="line">  &#125;</span><br><span class="line">  return events;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过调用对外方法（如<code>on</code>,<code>listenTo</code>,<code>once</code>…）传入的是<code>&#39;change update&#39;,callback</code>或<code>{&#39;change&#39;:callback,&#39;change update&#39;:callback}</code>，而最终指向的内部API函数为单个事件：<code>eventName,callback</code>。</p>
+<p>所以简单说，该方法对多事件进行解析拆分，遍历执行单个<code>&#39;eventname&#39;,callback</code>。</p>
+<p>下面来具体说说<code>eventsApi</code>的参数</p>
+<p><strong>iteratee</strong></p>
+<p>是个函数，根据调用的对外接口不同，该函数也不同。</p>
+<p>如：做绑定iteratee = onApi , onceMap; 做解绑 iteratee = offApi; 做触发 iteratee = triggerApi</p>
+<hr>
+<p><strong>events</strong></p>
+<p>已有事件的集合，当前事件对象上绑定的所有事件</p>
+<hr>
+<p><strong>name</strong></p>
+<p>事件名，来源于各对外接口传入的<code>name</code></p>
+<p>有两种类型，string （例如：”change”,”change update”）,map object (例如：{“change”:function(){}, “update change”:function(){}})</p>
+<hr>
+<p><strong>callback</strong></p>
+<p>回调函数，来源于各对外接口传入的<code>callback</code>,但它也不一定总是回调函数，当<em>name</em>为object时，<em>callbcak</em>可能是context。</p>
+<hr>
+<p><strong>opts</strong></p>
+<p>根据调用的接口不同，有以下几种情况</p>
+<ul>
+<li><code>on</code> ,<code>listenTo</code>,<code>off</code> ,调用这三个接口时 <code>opts</code>是个对象，<br>存放着<code>{context: context,ctx: obj,listening: listening }</code><br>obj为被监听的对象（<code>off</code>时不需要），context为回调函数的上下文 , listening ,调用<code>listenTo</code>时存在。</li>
+<li><code>once</code>,<code>listenToOnce</code> , 调用这两个接口时 <code>opts</code>是个函数(做解绑操作)</li>
+<li><code>trigger</code> , 此时<code>opts</code>是个数组(args,为触发事件传时回调函数的参数)</li>
+</ul>
+<h2 id="内部函数-triggerEvents"><a href="#内部函数-triggerEvents" class="headerlink" title="内部函数 triggerEvents"></a>内部函数 <strong>triggerEvents</strong></h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">var</span> triggerEvents = function(events, <span class="built_in">args</span>) &#123;</span><br><span class="line">  <span class="built_in">var</span> <span class="built_in">ev</span>, i = -<span class="number">1</span>, l = events.<span class="built_in">length</span>, a1 = <span class="built_in">args</span>[<span class="number">0</span>], a2 = <span class="built_in">args</span>[<span class="number">1</span>], a3 = <span class="built_in">args</span>[<span class="number">2</span>];</span><br><span class="line">  switch (<span class="built_in">args</span>.<span class="built_in">length</span>) &#123;</span><br><span class="line">    case <span class="number">0</span>: <span class="keyword">while</span> (++i &lt; l) (<span class="built_in">ev</span> = events[i]).callback.call(<span class="built_in">ev</span>.ctx); <span class="built_in">return</span>;</span><br><span class="line">    case <span class="number">1</span>: <span class="keyword">while</span> (++i &lt; l) (<span class="built_in">ev</span> = events[i]).callback.call(<span class="built_in">ev</span>.ctx, a1); <span class="built_in">return</span>;</span><br><span class="line">    case <span class="number">2</span>: <span class="keyword">while</span> (++i &lt; l) (<span class="built_in">ev</span> = events[i]).callback.call(<span class="built_in">ev</span>.ctx, a1, a2); <span class="built_in">return</span>;</span><br><span class="line">    case <span class="number">3</span>: <span class="keyword">while</span> (++i &lt; l) (<span class="built_in">ev</span> = events[i]).callback.call(<span class="built_in">ev</span>.ctx, a1, a2, a3); <span class="built_in">return</span>;</span><br><span class="line">    default: <span class="keyword">while</span> (++i &lt; l) (<span class="built_in">ev</span> = events[i]).callback.<span class="built_in">apply</span>(<span class="built_in">ev</span>.ctx, <span class="built_in">args</span>); <span class="built_in">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>为什么要这么写呢，根据它的函数注释的意思是说，在Backbone内部大部分的事件最多只有3个参数，对事件调用进行了优化，<br>先尝试使用<code>call</code>调用，尽量的不去使用<code>apply</code>调用，以此达到优化的目的。</p>
+<p>这里有对call,apply性能对比测试 <a href="https://jsperf.com/call-apply-segu" target="_blank" rel="noopener">https://jsperf.com/call-apply-segu</a></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>欢迎大家来一起探讨，由于个人能力有限，如有描述不妥或不对之处，请及时联系我或评论我。</p>
+<p>如果喜欢这篇文章，帮忙点个赞支持下。</p>
+<p>如果希望看到后续其他Backbone源码解析文章，请点下关注，第一时间获得更多更新内容。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/12/10/backbone-events/" data-id="cjd4gsps3001j0ov93vkvowbi" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Backbone/">Backbone</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/little-know-cors/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          你所不知道的跨域资源共享(CORS)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/09/backbone-01/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Backbone系列篇之重拾Backbone</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Backbone-Events-事件机制"><span class="toc-number">1.</span> <span class="toc-text">Backbone.Events 事件机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#listenTo-on的控制反转"><span class="toc-number">1.1.</span> <span class="toc-text">listenTo(on的控制反转)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#与on比较"><span class="toc-number">1.2.</span> <span class="toc-text">与on比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入了解listenTo"><span class="toc-number">1.3.</span> <span class="toc-text">深入了解listenTo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么Backbone-Events会有listenTo和stopListening"><span class="toc-number">1.4.</span> <span class="toc-text">为什么Backbone.Events会有listenTo和stopListening</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件对象上的-events"><span class="toc-number">1.5.</span> <span class="toc-text">事件对象上的_events</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#context与ctx"><span class="toc-number">1.6.</span> <span class="toc-text">context与ctx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部函数-eventsApi"><span class="toc-number">1.7.</span> <span class="toc-text">内部函数 eventsApi</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部函数-triggerEvents"><span class="toc-number">1.8.</span> <span class="toc-text">内部函数 triggerEvents</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">1.9.</span> <span class="toc-text">最后</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

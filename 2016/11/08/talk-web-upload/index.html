@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>聊聊Web上传 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对 web 上传的多种解决方案进行了总结，从最简单的上传说起，说到常用的上传方案。最后对几种常用的上传组件进行了介绍。">
+<meta name="keywords" content="HTML5,upload">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊Web上传">
+<meta property="og:url" content="http://www.devsai.com/2016/11/08/talk-web-upload/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="对 web 上传的多种解决方案进行了总结，从最简单的上传说起，说到常用的上传方案。最后对几种常用的上传组件进行了介绍。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/images/cors.png">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊Web上传">
+<meta name="twitter:description" content="对 web 上传的多种解决方案进行了总结，从最简单的上传说起，说到常用的上传方案。最后对几种常用的上传组件进行了介绍。">
+<meta name="twitter:image" content="http://www.devsai.com/images/cors.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-talk-web-upload" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/08/talk-web-upload/" class="article-date">
+  <time datetime="2016-11-07T16:00:00.000Z" itemprop="datePublished">2016-11-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      聊聊Web上传
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="web上传的实现方式"><a href="#web上传的实现方式" class="headerlink" title="web上传的实现方式"></a>web上传的实现方式</h1><ul>
+<li>表单提交上传</li>
+<li>iframe表单提交上传</li>
+<li>flash上传</li>
+<li>h5上传—xhr2上传（h5中规定的xhr2，也可称之ajax上传）</li>
+<li>h5上传—websocket上传</li>
+</ul>
+<h1 id="表单提交上传"><a href="#表单提交上传" class="headerlink" title="表单提交上传"></a>表单提交上传</h1><h2 id="表单出生"><a href="#表单出生" class="headerlink" title="表单出生"></a>表单出生</h2><p>1995年十一月在<a href="https://www.ietf.org/rfc/rfc1866.txt" target="_blank" rel="noopener">RFC 1866</a>中第一次出现了<code>form</code>标签，在其中还出现了很多其他的标签也一直使用到现在。同年同月在<a href="https://www.ietf.org/rfc/rfc1867.txt" target="_blank" rel="noopener">RFC 1867</a>中在<code>form</code>的基础上提出了html关于文件的上传的建议,</p>
+<h2 id="普通表单提交与上传表单提交区别"><a href="#普通表单提交与上传表单提交区别" class="headerlink" title="普通表单提交与上传表单提交区别"></a>普通表单提交与上传表单提交区别</h2><p>普通表单</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">form</span> action=<span class="string">"/"</span> &gt;</span><br><span class="line">	&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span> name=<span class="string">"name"</span>&gt;&lt;/<span class="keyword">input</span>&gt;</span><br><span class="line">	&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span> name=<span class="string">"age"</span>&gt;&lt;/<span class="keyword">input</span>&gt;</span><br><span class="line">	&lt;button <span class="keyword">type</span>=<span class="string">"submit"</span>&gt;确定&lt;/button&gt;</span><br><span class="line">&lt;/<span class="keyword">form</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>上传表单</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/upload"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">accept</span>=<span class="string">"images/*"</span>&gt;</span><span class="tag">&lt;/<span class="name">input</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span>上传<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上传表单中，对<code>form</code>标签的<code>enctype=&quot;multipart/form-data&quot;</code>。</p>
+<p>而普通的表单提交，一般不用去定义该属性，存在个默认的值“<em>x-www-form-urlencoded</em>”。</p>
+<p>在<a href="https://www.ietf.org/rfc/rfc1867.txt" target="_blank" rel="noopener">RFC 1867</a>中，对<code>input</code>标签type属性添加了新的值<code>file</code>，也为<code>input</code>标签添加了一个新的属性<code>accept</code>来过滤上传文件的类型。</p>
+<p>同时也定义了一个新的<code>MIME media type</code>：<code>multipart/form-data</code>,在<code>form</code>标签中定义<code>enctype=&quot;multipart/form-data&quot;</code>。</p>
+<p>在点击提交时，两者的请求头与请求体也有所不同。</p>
+<p>普通表单提交</p>
+<figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#request header</span></span><br><span class="line"><span class="type">Content</span>-<span class="class"><span class="keyword">type</span> : x-www-form-urlencoded;setchart:<span class="type">UTF</span>-8</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#request body</span></span><br><span class="line"><span class="title">form</span>-<span class="class"><span class="keyword">data</span></span></span><br><span class="line"><span class="title">name</span>:xxx</span><br><span class="line"><span class="title">age</span>:<span class="number">111</span></span><br></pre></td></tr></table></figure>
+<p>上传表单提交</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#request header</span></span><br><span class="line">Content-type : multipart/form-data; boundary=<span class="comment">----WebKitFormBoundaryK8NOU66bOhWkzidB</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#request body</span></span><br><span class="line"><span class="comment">------WebKitFormBoundaryK8NOU66bOhWkzidB</span></span><br><span class="line">Content-Disposition: form-data; <span class="built_in">name</span>=<span class="string">"resume"</span>; filename=<span class="string">"test-text-file.txt"</span></span><br><span class="line">Content-Type: <span class="built_in">text</span>/plain</span><br><span class="line">Test <span class="built_in">text</span> <span class="built_in">file</span> <span class="keyword">for</span> testing <span class="built_in">file</span> uploads.</span><br><span class="line"><span class="comment">------WebKitFormBoundaryK8NOU66bOhWkzidB--</span></span><br></pre></td></tr></table></figure>
+<p>上传表单提交，除了在Content-type中改变了MIME type,同时在其后添加了个属性<code>boundary</code>，用于表示提交的表单中各个字段的边界分割，不同浏览器生产的这个边界字符串是不同的。如上例子中的<code>----WebKitFormBoundaryK8NOU66bOhWkzidB</code>也只是使用webkit内核的才会出现<code>----WebKitForm</code>。</p>
+<p><strong>表单上传提交的优缺点</strong></p>
+<p>对现在的web上传来说，那时候的表单上传没什么优点，非要说优点，那就是简单，简单到不需要些一行JS代码。</p>
+<p>说缺点的话，那就是一箩筐了。<br>上传文件会页面跳转，不能选择多文件上传（想要上传多文件，就必须有多个<code>input</code>），不能限制上传大小，不能获得上传进度信息，不能预览，等等所有现在的上传需要都无法满足。</p>
+<p>PS:<br>HTML5中对<code>&lt;input type=&quot;file&quot;&gt;</code>添加了个新属性<code>multiple</code>，使之能够选择多文件，从而让表单上传提交变得方便。但话说，都有HTML5了，还需要用这种页面跳转的方式做上传吗？</p>
+<p>HTML5也添加了文件对象(<code>File</code>)，可以方便的获得文件本身的一些信息，name,size,type，在上传前知道文件的大小，实现限制上传大小；</p>
+<h1 id="iframe表单上传提交"><a href="#iframe表单上传提交" class="headerlink" title="iframe表单上传提交"></a>iframe表单上传提交</h1><p>是表单上传提交的优化版，本质上也是表单上传提交，一般都是通过创建个隐藏的iframe来提交表单，以此达到页面不跳转上传。</p>
+<p>thml代码</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=<span class="string">"<span class="keyword">POST</span>"</span> action=<span class="string">"/iframeUpload"</span> id=<span class="string">"my_form"</span> enctype=<span class="string">"multipart/form-data"</span> &gt;</span><br><span class="line">    &lt;div class=<span class="string">"form-group"</span>&gt;</span><br><span class="line">       	&lt;a href=<span class="string">"javascript:;"</span> class=<span class="string">"btn btn-default chooseFile"</span>&gt;选择文件</span><br><span class="line">          	&lt;input type=<span class="string">"file"</span> name=<span class="string">"inputFile"</span>   id=<span class="string">"inputFile"</span> /&gt;&lt;/a&gt;</span><br><span class="line">        &lt;button  id=<span class="string">"submit_btn"</span> type=<span class="string">"submit"</span> onclick=<span class="string">"fileUpload();"</span>&gt;Upload&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+<p>javascript代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">eventHandler</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//...get data ,or do somthing..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fileUpload</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">'my_form'</span>);</span><br><span class="line">	<span class="keyword">var</span> iframe = <span class="built_in">document</span>.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">	iframe.setAttribute(<span class="string">"id"</span>, <span class="string">"upload_iframe"</span>);</span><br><span class="line">    iframe.setAttribute(<span class="string">"name"</span>, <span class="string">"upload_iframe"</span>);</span><br><span class="line">	iframe.setAttribute(<span class="string">"width"</span>, <span class="string">"0"</span>);</span><br><span class="line">	iframe.setAttribute(<span class="string">"height"</span>, <span class="string">"0"</span>);</span><br><span class="line">	iframe.setAttribute(<span class="string">"border"</span>, <span class="string">"0"</span>);</span><br><span class="line">	iframe.setAttribute(<span class="string">"style"</span>, <span class="string">"width: 0; height: 0; border: none;"</span>);</span><br><span class="line">	form.parentNode.appendChild(iframe);</span><br><span class="line">	iframeId.addEventListener(<span class="string">"load"</span>, eventHandler, <span class="literal">true</span>);</span><br><span class="line">	iframeId.attachEvent(<span class="string">"onload"</span>, eventHandler);</span><br><span class="line">	form.submit();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可表单上传提交的其他缺点还是存在。</p>
+<p>还是不能获得上传进度信息，想要获得上传进度信息，需要服务端的支持，轮询服务端接口。</p>
+<p>并且iframe无法实现跨域上传</p>
+<p>所以总体来说，iframe更适合上传单个文件，并上传的文件较小（文件较大 ，没有进度条信息的话，用户体验太差）。</p>
+<h1 id="flash上传"><a href="#flash上传" class="headerlink" title="flash上传"></a>flash上传</h1><p>在HTML5之前，最流行的上传方式，能实现的功能也较多。</p>
+<h2 id="flash上传的优点"><a href="#flash上传的优点" class="headerlink" title="flash上传的优点"></a>flash上传的优点</h2><ol>
+<li>支持上传进度条</li>
+<li>支持预览（图片等）</li>
+<li>支持多文件上传</li>
+<li>支持图片压缩</li>
+<li>支持分片上传</li>
+<li>支持暂停上传</li>
+<li>支持秒传</li>
+</ol>
+<h2 id="flash上传的缺点"><a href="#flash上传的缺点" class="headerlink" title="flash上传的缺点"></a>flash上传的缺点</h2><ol>
+<li>需要浏览器安装flash插件</li>
+<li>网站需要加载相应的swf文件</li>
+<li>对移动端不兼容（iOS一直不支持，Android5.0之后也不支持）</li>
+</ol>
+<h2 id="flash跨域上传"><a href="#flash跨域上传" class="headerlink" title="flash跨域上传"></a>flash跨域上传</h2><p>如果网站的地址，与上传请求的地址不是同域，则会存在flash数据传输跨域问题。</p>
+<p>需要在请求地址的服务端根目录下添加<code>crossdomain.xml</code>文件</p>
+<p>文件内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></span><br><span class="line"><span class="tag">&lt;<span class="name">cross-domain-policy</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">allow-access-from</span> <span class="attr">doamin</span>=<span class="string">"*"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">cross-domain-prolicy</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="H5—xhr2（XmlHttpRequest-level-2）上传"><a href="#H5—xhr2（XmlHttpRequest-level-2）上传" class="headerlink" title="H5—xhr2（XmlHttpRequest level 2）上传"></a>H5—xhr2（XmlHttpRequest level 2）上传</h1><p>xhr即我们常说的ajax(Asynchronous JavaScript and XML)</p>
+<p><strong>xhr2的特点</strong></p>
+<ol>
+<li>可以设置HTTP请求的时限。</li>
+<li>可以获取服务器端的（或向服务端发送）二进制数据。</li>
+<li>可以使用FormData对象管理表单数据。</li>
+<li>可以上传文件。<code>xhr.upload</code>(upload = XMLHttpRequestUpload)</li>
+<li>可以获得数据传输的进度信息, <code>xhr.upload.onprogess</code>。</li>
+<li>可以请求不同域名下的数据（跨域请求）。</li>
+</ol>
+<p>主要javascript代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span>(<span class="params">file</span>)</span>&#123;</span><br><span class="line">   <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">   xhr.open(<span class="string">'POST'</span>,<span class="string">'/upload'</span>,<span class="literal">true</span>);</span><br><span class="line">   <span class="keyword">var</span> formData = <span class="keyword">new</span> FormData();</span><br><span class="line">   xhr.upload.onprogress = <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">var</span> per = <span class="built_in">Math</span>.ceil((data.loaded/data.total)*<span class="number">100</span>);</span><br><span class="line">      <span class="comment">//$('#'+file.uid+' .progress-bar').css('width',per+'%');</span></span><br><span class="line">   &#125;</span><br><span class="line">   xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (xhr.readyState == <span class="number">4</span> &amp;&amp; xhr.status == <span class="number">200</span>) &#123;</span><br><span class="line">         <span class="comment">// Every thing ok, file uploaded</span></span><br><span class="line">           <span class="keyword">var</span> res = <span class="built_in">JSON</span>.parse(xhr.responseText);</span><br><span class="line">           <span class="keyword">if</span>(res.code ==<span class="number">200</span>)&#123;</span><br><span class="line">               <span class="comment">// upload success</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;;</span><br><span class="line">   formData.append(<span class="string">"upload_file"</span>, file);</span><br><span class="line">   formData.append(<span class="string">"filename"</span>,file.name);</span><br><span class="line">   xhr.send(formData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>xhr2在结合H5的其他特性，可以实现上述flash上传的所以功能外，还可以实现<code>拖拽上传</code>功能。</p>
+<p>由于诸多HTML5特性（Blob ,xhr2,FileReader,ArrayBuffer等）在IE10+中才有效，<br>所以xhr2上传更适合在chrome，firefox等高版本的浏览器或和移动端使用。</p>
+<h1 id="CORS-跨域资源共享"><a href="#CORS-跨域资源共享" class="headerlink" title="CORS(跨域资源共享)"></a>CORS(跨域资源共享)</h1><p>允许一个域上的网络应用向另一个域提交跨域 AJAX 请求。启用此功能非常简单，只需由服务器发送一个响应标头即可。例如：<br><code>Access-Control-Allow-Origin: http://example.com</code></p>
+<p>当然还有其他的一些配置，比如配置允许的自定义头，允许的请求方式等等。这里不作详细说明，具体内容可查看<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS?redirectlocale=en-US&redirectslug=HTTP_access_control#Preflighted_requests" target="_blank">这里</a></p>
+<p><img src="/images/cors.png" alt="cors"><br>这图清晰的整个跨域资源共享的请求过程。</p>
+<h1 id="H5—websocket上传"><a href="#H5—websocket上传" class="headerlink" title="H5—websocket上传"></a>H5—websocket上传</h1><p>二话不说，上代码:</p>
+<figure class="highlight qml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">url</span> = <span class="string">"ws://localhost:8081/upload"</span>;</span><br><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="built_in">url</span>);</span><br><span class="line">ws.binaryType = <span class="string">'arraybuffer'</span>;</span><br><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.console.log(<span class="string">'websocket connection success ...'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">ws.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>.console.log(<span class="string">'WebSocket Error '</span> + error);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">uploadFile</span>(<span class="params">file</span>)</span>&#123;</span><br><span class="line">   <span class="comment">//实例化FileReader对象</span></span><br><span class="line">   <span class="keyword">var</span> fr = <span class="keyword">new</span> FileReader();</span><br><span class="line">   <span class="comment">//定义文件加载完的监听事件，执行回调函数 </span></span><br><span class="line">   fr.addEventListener(<span class="string">"loadend"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      ws.send(fr.result);</span><br><span class="line">   &#125;);</span><br><span class="line">   <span class="comment">//把文件加载进ArrayBuffer中</span></span><br><span class="line">   fr.readAsArrayBuffer(file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际使用中，浏览器websocket用做上传较少</p>
+<p>websocket上传存在几个问题：</p>
+<ol>
+<li>一般对于现有的上传服务，服务端需要单独开发接口</li>
+<li>同样无法获得上传的进度信息（变通方式：必须使用分片来模拟进度）</li>
+</ol>
+<h1 id="简单比较几种上传组件"><a href="#简单比较几种上传组件" class="headerlink" title="简单比较几种上传组件"></a>简单比较几种上传组件</h1><p><em>swfupload</em></p>
+<p>flash实现的上传组件，在h5或移动端未流行的时候，是比较常用的上传方式。<br>理由是功能强大。</p>
+<p><em><a href="https://blueimp.github.io/jQuery-File-Upload/" target="_blank">jQuery-File-Upload</a></em></p>
+<p>在github上的人气相当的高，是上述所说iframe与xhr2上传的结合，介绍说支持IE6以上浏览器的上传功能。</p>
+<p>此话也不假，iframe用的就是form表单提交上传，确实可以在IE7，IE8等浏览器中完成上传。<br>但也就是上传，上传相关的其他”特效功能”都实现不了。所以在我看来，jQuery-File-Uplaod更适合用于chrome ,firefox等或移动端的上传。</p>
+<p><em><a href="http://www.uploadify.com" target="_blank">Uploadify</a></em></p>
+<p>是个基于swfupload的上传组件，同时也支持xhr2上传。是falsh上传与xhr2上传的结合，同样的功能强大。对浏览器的兼容要比jQuery-File-Upload要更好。</p>
+<p><em><a href="http://fex.baidu.com/webuploader/" target="_blank">webUploder</a></em></p>
+<p>与Uploadify一样是falsh上传与xhr2上传的结合，但从查看两者的API会发现，webUploader实现的功能要更多，更强大。 比如：分片上传，MD5秒传，图片压缩上传</p>
+<p>最后双手奉上<a href="https://github.com/huangxiangsai/web-upload-demo" target="_blank">web上传Demo</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/11/08/talk-web-upload/" data-id="cjd4gspt8002n0ov9jg44m6by" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML5/">HTML5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/upload/">upload</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/21/tech-https-30min/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          微信小程序开发之Https从无到有
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/19/git命令使用场景/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Git命令的使用场景</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#web上传的实现方式"><span class="toc-number">1.</span> <span class="toc-text">web上传的实现方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表单提交上传"><span class="toc-number">2.</span> <span class="toc-text">表单提交上传</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#表单出生"><span class="toc-number">2.1.</span> <span class="toc-text">表单出生</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#普通表单提交与上传表单提交区别"><span class="toc-number">2.2.</span> <span class="toc-text">普通表单提交与上传表单提交区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#iframe表单上传提交"><span class="toc-number">3.</span> <span class="toc-text">iframe表单上传提交</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#flash上传"><span class="toc-number">4.</span> <span class="toc-text">flash上传</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#flash上传的优点"><span class="toc-number">4.1.</span> <span class="toc-text">flash上传的优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flash上传的缺点"><span class="toc-number">4.2.</span> <span class="toc-text">flash上传的缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flash跨域上传"><span class="toc-number">4.3.</span> <span class="toc-text">flash跨域上传</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#H5—xhr2（XmlHttpRequest-level-2）上传"><span class="toc-number">5.</span> <span class="toc-text">H5—xhr2（XmlHttpRequest level 2）上传</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CORS-跨域资源共享"><span class="toc-number">6.</span> <span class="toc-text">CORS(跨域资源共享)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#H5—websocket上传"><span class="toc-number">7.</span> <span class="toc-text">H5—websocket上传</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单比较几种上传组件"><span class="toc-number">8.</span> <span class="toc-text">简单比较几种上传组件</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaScript精粹之函数(一) | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在javascript中函数真的是神通广大的很。它除了可以作为一般的函数使用外，我们还可以当对象的方法使用，也可以像这样`function MyClass(){}`，看这名字你们应该知道这是什么了，对的，函数也可以构造成类来使用。对于不同的声明方式，函数的调用也是不一样的。">
+<meta name="keywords" content="JavaScript,前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript精粹之函数(一)">
+<meta property="og:url" content="http://www.devsai.com/2014/11/02/JavaScript精粹之函数(一)/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="在javascript中函数真的是神通广大的很。它除了可以作为一般的函数使用外，我们还可以当对象的方法使用，也可以像这样`function MyClass(){}`，看这名字你们应该知道这是什么了，对的，函数也可以构造成类来使用。对于不同的声明方式，函数的调用也是不一样的。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript精粹之函数(一)">
+<meta name="twitter:description" content="在javascript中函数真的是神通广大的很。它除了可以作为一般的函数使用外，我们还可以当对象的方法使用，也可以像这样`function MyClass(){}`，看这名字你们应该知道这是什么了，对的，函数也可以构造成类来使用。对于不同的声明方式，函数的调用也是不一样的。">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JavaScript精粹之函数(一)" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/02/JavaScript精粹之函数(一)/" class="article-date">
+  <time datetime="2014-11-02T08:36:59.000Z" itemprop="datePublished">2014-11-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript精粹之函数(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在javascript中函数真的是神通广大的很。它除了可以作为一般的函数使用外，我们还可以当对象的方法使用，也可以像这样<code>function MyClass(){}</code>，看这名字你们应该知道这是什么了，对的，函数也可以构造成类来使用。对于不同的声明方式，函数的调用也是不一样的。</p>
+<h1 id="函数的形式"><a href="#函数的形式" class="headerlink" title="函数的形式"></a>函数的形式</h1><p>函数有下面几种声明方式：</p>
+<ul>
+<li>直接声明 <blockquote>
+<p>例如 ：function add(a,b){….}</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>变量声明</p>
+<blockquote>
+<p>例如 ：var add = function(a,b){…}</p>
+</blockquote>
+</li>
+<li><p>对象方法声明</p>
+<blockquote>
+<p>例如 ：<br>var obj = {</p>
+<pre><code>add:function(a,b){...}
+</code></pre><p>}</p>
+</blockquote>
+</li>
+<li><p>类声明</p>
+<blockquote>
+<p>例如 ： function Add(a,b){…}  </p>
+</blockquote>
+</li>
+</ul>
+<h1 id="函数的调用模式"><a href="#函数的调用模式" class="headerlink" title="函数的调用模式"></a>函数的调用模式</h1><ul>
+<li><p>作为对象方法调用(The Method Invocation Pattern)</p>
+<p>通常我们会上述的<strong>对象方法声明</strong>来创建一个对象，然后我们就可以这样来调用对象的方法了：</p>
+</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">		</span></span><br><span class="line">obj.add(1,2);</span><br><span class="line">//或者</span><br><span class="line">obj[<span class="string">add</span>](<span class="link">1,2</span>);</span><br></pre></td></tr></table></figure>
+<p>这里的函数绑定在了对象上，函数成了对象的属性，这种作为对象的属性来调用，我们一般就叫作方法调用。此时，函数中<code>this</code>指的就是对象本身。我们经常看到的链式调用<code>myInfo.setName(&quot;xiao&quot;).setAge(33).setWeigth(65)</code>就是通过返回<code>this</code>来实现的。</p>
+<p>例如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> myInfo = &#123;</span><br><span class="line">	setName:<span class="function"><span class="keyword">function</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(name);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">	&#125;,</span><br><span class="line">	setAge:<span class="function"><span class="keyword">function</span>(<span class="params">age</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(age);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">	&#125;,</span><br><span class="line">	setWeight:<span class="function"><span class="keyword">function</span>(<span class="params">weight</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(weight);</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//invoke :</span></span><br><span class="line">myInfo.setName(<span class="string">"sai"</span>).setAge(<span class="number">27</span>).setWeight(<span class="number">65</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>一般函数调用(The Function Invocation Pattern)</li>
+</ul>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var <span class="function"><span class="keyword">sub</span> = <span class="title">add</span></span>(1,2);</span><br></pre></td></tr></table></figure>
+<p>这种形式的函数是绑定在全局对象上。我们应该知道在函数内部使用的变量，除了声明函数是定义的参数变量或使用<code>var</code>声明的变量外，都是全局变量（也是全局对象的属性）。比如：有个全局变量<code>a</code>有函数内部使用，我们可以直接使用它<code>a</code>或者作为全局对象的属性使用：<code>this.a</code>。</p>
+<p>函数体内的变量有这样的特点，比如：在函数体内有变量<code>name</code>，如果该变量是在函数体内声明的（也就是用<code>var</code>或作为形参）那么<code>name</code>就是函数体内声明的变量，如果没有在函数体内声明，会自动的访问全局变量<code>name</code>。又如果在函数体内已经声明的变量<code>name</code>，但还是想使用全局的变量<code>name</code>，那么就需要这样使用<code>this.name</code>，在这种形式调用的函数体内this指的就是全局对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"huang"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInfo1</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"part varibale name: "</span>+name);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"global varibale name: "</span>+<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">myInfo1(<span class="string">"sai"</span>);	</span><br><span class="line"><span class="comment">// print out : </span></span><br><span class="line"><span class="comment">//	part varibale name: sai</span></span><br><span class="line"><span class="comment">//	global varibale name: huang</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInfo2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> name = <span class="string">"sai"</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"part varibale name: "</span>+name);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"global varibale name: "</span>+<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">myInfo2();</span><br><span class="line"><span class="comment">// print out : </span></span><br><span class="line"><span class="comment">//	part varibale name: sai</span></span><br><span class="line"><span class="comment">//	global varibale name: huang</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInfo3</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"part varibale name: "</span>+name);</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"global varibale name: "</span>+<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">myInfo3();</span><br><span class="line"><span class="comment">// print out : </span></span><br><span class="line"><span class="comment">//	part varibale name: huang</span></span><br><span class="line"><span class="comment">//	global varibale name: huang</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>作为构造函数调用(The Constructor Invocation Pattern)</p>
+<p>这种形式，可以看成是java中的类对象，通过new 来构建类对象的实例。<br>javascript可以把函数当作对象使用。所以在javascript声明一个类对象和声明函数是一样的。<br>区别在于：我们如果要把函数当作类对象使用，那我们一般在定义函数名称的时候会使首字母大写。</p>
+</li>
+</ul>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span></span> MyInfo(<span class="keyword">name</span>)&#123;</span><br><span class="line">	this.<span class="keyword">name</span> = <span class="keyword">name</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们可以像添加对象的属性一样，来给我们创建的类添加公共的属性或方法。</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MyInfo.prototype.getName = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用new来实现化一个类对象：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var my = <span class="keyword">new</span> MyInfo(<span class="string">"sai"</span>);</span><br><span class="line"></span><br><span class="line">my.getName(); // print <span class="keyword">out</span> : <span class="type">sai</span></span><br><span class="line">my.name;	  // print <span class="keyword">out</span> : <span class="type">sai</span></span><br></pre></td></tr></table></figure>
+<p><code>my.name</code>是不是觉得和使用javascript中的一般的对象是一样的啊。所以说，在javascript除了几种基本的类型外，其他都是对象。其实javascript中已经内置了几个这种形式的类对象。比如：<code>new Date()</code>、<code>new Array()</code>、<code>new String()</code>等等。 </p>
+<ul>
+<li><p>指定对象方法调用(The Apply Invocation Pattern)</p>
+<p>javascript中函数是可以有方法的，这个在前面的介绍中我们应该就知道了。 这里要说的是其中的一个方法，名叫<code>apply</code>，它的主要作用就是让函数能在其他的对象使用。<br>该方法需要两个参数，第一个参数做为我们要调用的函数的宿主（即需要的对象）,第二个参数是调用<br>函数时所须的参数（以数组的形式）。</p>
+</li>
+</ul>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var otherPeople = &#123;</span><br><span class="line">	<span class="built_in">name</span> : <span class="string">"other"</span></span><br><span class="line">&#125;</span><br><span class="line">myInfo1.<span class="built_in">apply</span>(otherPeople,<span class="string">"xiao bao"</span>);</span><br><span class="line"><span class="comment">// print out :</span></span><br><span class="line"><span class="comment">//	part varibale name: xiao bao</span></span><br><span class="line"><span class="comment">//	global varibale name: other</span></span><br></pre></td></tr></table></figure>
+<p>此时，myInfo1声明中使用的<em>this</em>指的就不是<strong>全局对象</strong>了，而是<strong>otherPeople</strong>。</p>
+<p>说到<code>apply</code>当然要提一下<code>call</code>，它的作用和<code>apply</code>是一样的。但call除了第一个参数是宿主对象外，后面的参数个数不限且这些参数会作为被调用的函数的参数使用。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2014/11/02/JavaScript精粹之函数(一)/" data-id="cjd4gsprx001e0ov9fvfv7r8x" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/18/liunx-find-files/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Liunx中查找目录下某内容的所有文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/15/shell-deploysystem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">用Shell脚本发布系统</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#函数的形式"><span class="toc-number">1.</span> <span class="toc-text">函数的形式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#函数的调用模式"><span class="toc-number">2.</span> <span class="toc-text">函数的调用模式</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

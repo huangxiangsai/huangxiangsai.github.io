@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微信小程序开发之Https从无到有 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="30分钟，https个人认证教程，以最快的速度拥有https">
+<meta name="keywords" content="https,ssl,微信小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微信小程序开发之Https从无到有">
+<meta property="og:url" content="http://www.devsai.com/2016/11/21/tech-https-30min/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="30分钟，https个人认证教程，以最快的速度拥有https">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/sginUp.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/verification.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/sginUp2.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/sginUpsuccess.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/login.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/domainvalid.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/inputdoamin.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/validsuccess.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/addfulldomain.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/gencert.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/localgen.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/pastecert.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/downloadunzip.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/ssl/inputPEM.jpg">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微信小程序开发之Https从无到有">
+<meta name="twitter:description" content="30分钟，https个人认证教程，以最快的速度拥有https">
+<meta name="twitter:image" content="http://www.devsai.com/images/2016/ssl/sginUp.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tech-https-30min" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/21/tech-https-30min/" class="article-date">
+  <time datetime="2016-11-20T16:00:00.000Z" itemprop="datePublished">2016-11-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      微信小程序开发之Https从无到有
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>本篇不讲什么是https，什么是SSL,什么是nginx</p>
+<p>想了解这些的请绕道，相信有很多优秀的文章会告诉你。</p>
+<p>本篇要讲的在最短的时间内，让你的网站从http升级到https。</p>
+<p>开始教程前再说一句：https你值得拥有。</p>
+<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>最近段时间，微信小程序爆火，消息一出，各路豪杰，摩拳擦掌，跃跃欲试。</p>
+<p>都想这个坑(这里不多阐述，具体坑不坑，developer最清楚)里跳。微信对小程序也是有诸多的限制。</p>
+<p>例如文件大小，请求服务端必须是https。 </p>
+<p>文件大小，好办，开发过程中尽量的控制文件，能复用的尽量复用。用不到的文件尽量不引用。本地的图片也尽量的少。</p>
+<p>可https,在国内线上用https的都不算多，更何况是开发过程中用https，应该就更少了吧。</p>
+<p>如果你正在开发微信小程序，并还没有https，那么巧了，那么我想，这篇可能可以帮到你。</p>
+<h1 id="StartSSL免费SSL证书"><a href="#StartSSL免费SSL证书" class="headerlink" title="StartSSL免费SSL证书"></a>StartSSL免费SSL证书</h1><p>都说了是开发用（如果到了线上，想要https，相关的运维人员会搞定收费的https），那当然要用免费的。</p>
+<p>StartSSL就是个不错的选择。 </p>
+<h2 id="StartSSL"><a href="#StartSSL" class="headerlink" title="StartSSL"></a>StartSSL</h2><p>StartSSL是StartCom公司旗下的SSL证书，提供免费SSL证书服务并且被主流浏览器支持的免费SSL，包括Chrome、Firefox、IE等浏览器都可以正常识别StartSSL，更主要的是StartSSL提供免费<code>3年</code>且可以无限续期的SSL证书，而且可以设置<code>10个</code>域名。</p>
+<h2 id="StartSSL注册、登录"><a href="#StartSSL注册、登录" class="headerlink" title="StartSSL注册、登录"></a>StartSSL注册、登录</h2><p>1 进入注册页面</p>
+<p>进入<a href="https://www.startssl.com/SignUp" target="_blank" rel="noopener">https://www.startssl.com/SignUp</a>。</p>
+<p><img src="/images/2016/ssl/sginUp.png" alt=""></p>
+<p>2 注册很简单只需要填个邮箱发送验证码</p>
+<p><img src="/images/2016/ssl/verification.png" alt=""></p>
+<p>3 然后填入获得的验证码,点击按钮后会跳转至设置密码</p>
+<p><img src="/images/2016/ssl/sginUp2.png" alt=""></p>
+<p><img src="/images/2016/ssl/sginUpsuccess.png" alt=""></p>
+<p>4 注册成功后，会让你下载用于登录的证书，因为该网站提供了两种登录方式，客户端证书认证和邮箱登录（填写邮箱，获得验证码登录），个人感觉使用邮箱也很方便。</p>
+<p><img src="/images/2016/ssl/login.png" alt=""></p>
+<h2 id="申请免费的SSL"><a href="#申请免费的SSL" class="headerlink" title="申请免费的SSL"></a>申请免费的SSL</h2><p>1 先添加验证域名，选择选项卡的<code>Validations Wizard</code>，并选择<code>Domain Validation (for SSL certificate)</code><br>点击<code>Validation</code></p>
+<p><img src="/images/2016/ssl/domainvalid.png" alt=""></p>
+<p>2 填入域名，并在域名所有者邮箱（或域名对应的企业邮箱）中获取发送的验证码</p>
+<p><img src="/images/2016/ssl/inputdoamin.png" alt=""></p>
+<p>3 添加的域名验证成功，点击<code>To &quot;Order SSL Certificate &quot;</code></p>
+<p><img src="/images/2016/ssl/validsuccess.png" alt=""></p>
+<p>4 现在可以开始给自己的域名申请StartSSL免费SSL证书了，这里添加用于申请证书的完整的域名</p>
+<p><img src="/images/2016/ssl/addfulldomain.png" alt=""></p>
+<p>5 申请StartSSL免费SSL时，会要求填入CSR</p>
+<p><img src="/images/2016/ssl/gencert.png" alt=""></p>
+<p>6 CSR 生成可以有两种方式，一种是使用StartSSL提供的<code>[StartComTool.exe](https://download.startpki.com/startcom/startcomtool.exe)</code>适用于Window，另一种方式也可以使用<code>openssl</code>命令,适用于Mac,liunx等。</p>
+<pre><code>openssl req -newkey rsa:2048 -keyout yourname.key -out yourname.csr
+</code></pre><p><img src="/images/2016/ssl/localgen.png" alt=""></p>
+<p>7 把生成的(<code>youname.csr</code>)CSR签名证书请求内容，粘贴进去</p>
+<p><img src="/images/2016/ssl/pastecert.png" alt=""></p>
+<p>8 然后StartSSL就可以免费SSL下载使用</p>
+<h2 id="下载免费的SSL"><a href="#下载免费的SSL" class="headerlink" title="下载免费的SSL"></a>下载免费的SSL</h2><p>下载下来的SSL是zip格式的压缩包，解压后有如下内容</p>
+<p><img src="/images/2016/ssl/downloadunzip.png" alt=""></p>
+<p>分别提供了几种web服务所需的ssl认证文件</p>
+<h1 id="nginx-SSL配置"><a href="#nginx-SSL配置" class="headerlink" title="nginx SSL配置"></a>nginx SSL配置</h1><p>这里只拿nginx举例,编辑nginx配置文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">listen       <span class="number">443</span>;</span><br><span class="line">ssl     on;</span><br><span class="line">ssl_certificate <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>conf<span class="regexp">/key/</span>xxx.pem;</span><br><span class="line">ssl_certificate_key <span class="regexp">/usr/</span>local<span class="regexp">/nginx/</span>conf<span class="regexp">/key/</span>xxx.key;</span><br><span class="line">ssl_session_timeout <span class="number">5</span>m;</span><br><span class="line">ssl_protocols TLSv1 TLSv1<span class="number">.1</span> TLSv1<span class="number">.2</span>;</span><br><span class="line">ssl_ciphers   EECDH+<span class="string">CHACHA20:</span>EECDH+CHACHA20-<span class="string">draft:</span>EECDH+<span class="string">AES128:</span>RSA+<span class="string">AES128:</span>EECDH+<span class="string">AES256:</span>RSA+<span class="string">AES256:</span>EECDH+<span class="number">3</span><span class="string">DES:</span>RSA+<span class="number">3</span><span class="string">DES:</span>!MD5;</span><br><span class="line">ssl_session_cache          <span class="string">shared:</span><span class="string">SSL:</span><span class="number">50</span>m;</span><br></pre></td></tr></table></figure>
+<p><code>xxx.pem</code>就是从StartSSL下载下来的NginxServer.zip中的文件xxx_bundle.crt（需要把后缀改成pem）</p>
+<p><code>xxx.key</code> 这是之前执行 <code>openssl req -newkey rsa:2048 -keyout yourname.key -out yourname.csr</code>时生成的key.</p>
+<p>然后启动nginx ,输入密码（该密码是生成本地CSR时设置的）</p>
+<p><img src="/images/2016/ssl/inputPEM.jpg" alt=""></p>
+<h1 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h1><p>到这来，就可以使用https了，马上打开你的域名试试吧。</p>
+<p>其实在网上也能找到很多StartSSL的申请流程。可大多都是之前的，界面与操作方式都有所改变。这篇提供了最新的StartSSL申请流程，以帮助大家更快的进行SSL认证。</p>
+<p>看之前的教程，会告诉你，在第7步后不能马上下载SSL认证，StartSSL会有个客服审核的过程可能需要几小时，但现在的使用下来发现，现在已经没有这过程了，完成第7步就可以去认证的列表下载SSL认证。</p>
+<h1 id="微信小程序请求-wx-request-fail"><a href="#微信小程序请求-wx-request-fail" class="headerlink" title="微信小程序请求 wx.request :fail"></a>微信小程序请求 wx.request :fail</h1><p>本文的目的是为了微信小程序请求能使用https</p>
+<p>所以，最后如果在调用微信wx.request接口时还是报错，可以参考<a href="http://www.wxapp-union.com/forum.php?mod=viewthread&tid=648&highlight=request" target="_blank">这篇</a>寻找解决之法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/11/21/tech-https-30min/" data-id="cjd4gsptd002r0ov9ejbaofn2" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl/">ssl</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/微信小程序/">微信小程序</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/24/talk-CORS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Web开发之跨域与跨域资源共享
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/08/talk-web-upload/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">聊聊Web上传</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#起因"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#StartSSL免费SSL证书"><span class="toc-number">2.</span> <span class="toc-text">StartSSL免费SSL证书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#StartSSL"><span class="toc-number">2.1.</span> <span class="toc-text">StartSSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#StartSSL注册、登录"><span class="toc-number">2.2.</span> <span class="toc-text">StartSSL注册、登录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#申请免费的SSL"><span class="toc-number">2.3.</span> <span class="toc-text">申请免费的SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载免费的SSL"><span class="toc-number">2.4.</span> <span class="toc-text">下载免费的SSL</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx-SSL配置"><span class="toc-number">3.</span> <span class="toc-text">nginx SSL配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#大功告成"><span class="toc-number">4.</span> <span class="toc-text">大功告成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#微信小程序请求-wx-request-fail"><span class="toc-number">5.</span> <span class="toc-text">微信小程序请求 wx.request :fail</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

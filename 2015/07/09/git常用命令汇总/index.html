@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git常用命令汇总 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前段时间由于工作需要，把项目从svn迁至了git上。 为此，公司的git高手做了一次分享。我们这些小白也从网上找资源，以便能尽快的入门。 在这过程中，队里伙伴找到了张图片，非常全的总结了git的常用命令。 虽然都不知道这图是谁分享的，但还是非常的感谢。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git常用命令汇总">
+<meta property="og:url" content="http://www.devsai.com/2015/07/09/git常用命令汇总/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="前段时间由于工作需要，把项目从svn迁至了git上。 为此，公司的git高手做了一次分享。我们这些小白也从网上找资源，以便能尽快的入门。 在这过程中，队里伙伴找到了张图片，非常全的总结了git的常用命令。 虽然都不知道这图是谁分享的，但还是非常的感谢。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/images/2015/08/2010072023345292.png">
+<meta property="og:image" content="http://www.devsai.com/images/gitignore.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-1.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-2.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-3.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-4.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-5.png">
+<meta property="og:image" content="http://www.devsai.com/images/git-rebase-6.png">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git常用命令汇总">
+<meta name="twitter:description" content="前段时间由于工作需要，把项目从svn迁至了git上。 为此，公司的git高手做了一次分享。我们这些小白也从网上找资源，以便能尽快的入门。 在这过程中，队里伙伴找到了张图片，非常全的总结了git的常用命令。 虽然都不知道这图是谁分享的，但还是非常的感谢。">
+<meta name="twitter:image" content="http://www.devsai.com/images/2015/08/2010072023345292.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-git常用命令汇总" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/09/git常用命令汇总/" class="article-date">
+  <time datetime="2015-07-09T08:36:59.000Z" itemprop="datePublished">2015-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git常用命令汇总
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>前段时间由于工作需要，把项目从svn迁至了git上。</p>
+<p>为此，公司的git高手做了一次分享。我们这些小白也从网上找资源，以便能尽快的入门。</p>
+<p>在这过程中，队里伙伴找到了张图片，非常全的总结了git的常用命令。</p>
+<p>虽然都不知道这图是谁分享的，但还是非常的感谢。</p>
+<p><a href="/images/2015/08/2010072023345292.png" target="_blank">查看原图</a><br><img src="/images/2015/08/2010072023345292.png" alt=""></p>
+<h3 id="实际用到的命令-持续更新中…"><a href="#实际用到的命令-持续更新中…" class="headerlink" title="实际用到的命令(持续更新中…)"></a>实际用到的命令(持续更新中…)</h3><p>下述内容或许上图中已提到，但为更方便的阅读与copy</p>
+<h4 id="生成SSH-key"><a href="#生成SSH-key" class="headerlink" title="生成SSH key"></a><strong>生成SSH key</strong></h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ssh-keygen</span> <span class="selector-tag">-t</span> <span class="selector-tag">rsa</span> <span class="selector-tag">-C</span> "<span class="selector-tag">xxxx</span>@<span class="keyword">gmail</span>.<span class="keyword">com</span>"</span><br></pre></td></tr></table></figure>
+<h4 id="检出历史版本到分支"><a href="#检出历史版本到分支" class="headerlink" title="检出历史版本到分支"></a><strong>检出历史版本到分支</strong></h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> checkout 分支号</span><br><span class="line"><span class="symbol">git</span> <span class="keyword">branch </span>-<span class="keyword">b </span>[新分支名]</span><br></pre></td></tr></table></figure>
+<h4 id="常用的自定义命令"><a href="#常用的自定义命令" class="headerlink" title="常用的自定义命令"></a><strong>常用的自定义命令</strong></h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方便查看当前的文件状态</span></span><br><span class="line">git<span class="built_in"> config </span>--global alias.s <span class="string">"status -s"</span> </span><br><span class="line"><span class="comment">#方便查看日志 人性化得显示时间，显示提交人</span></span><br><span class="line">git<span class="built_in"> config </span>--global alias.lg <span class="string">"log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span></span><br></pre></td></tr></table></figure>
+<h4 id="设置不忽略大小写"><a href="#设置不忽略大小写" class="headerlink" title="设置不忽略大小写"></a><strong>设置不忽略大小写</strong></h4><p>  <code>git config core.ignorecase false</code></p>
+<h4 id="提交代码不用输入用户名密码"><a href="#提交代码不用输入用户名密码" class="headerlink" title="提交代码不用输入用户名密码"></a><strong>提交代码不用输入用户名密码</strong></h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解决方法 1</span></span><br><span class="line"><span class="comment">#通过ssh认证</span></span><br><span class="line"><span class="comment">#使用 git@... clone项目，之后的git操作都无需输入用户名、密码</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#解决方法 2</span></span><br><span class="line"><span class="comment">#可以不输密码 提交http地址的项目</span></span><br><span class="line"> </span><br><span class="line"><span class="attribute">vim</span> ~/.git-credentials</span><br><span class="line"></span><br><span class="line">     https://[username]:[password]<span class="variable">@github</span>.com  <span class="comment">#github</span></span><br><span class="line">     http://[username]:[password]<span class="variable">@gitlab</span>.xxx.com  <span class="comment">#gitlab</span></span><br><span class="line"></span><br><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
+<p>两种方法结合可完全避免输密码提交</p>
+<p>其实<code>.git-credentials</code>这个文件也可以不用自己来添加，<br>只需设置<code>git config --global credential.helper store</code><br>不自己手动添加的<code>.git-credentials</code>的影响就是，做git相关操作的时候需要输一遍用户名、密码。<br>然后git会自动生成<code>.git-credentials</code>文件并在文件中添加用户名密码</p>
+<h4 id="撤销git-add操作"><a href="#撤销git-add操作" class="headerlink" title="撤销git add操作"></a><strong>撤销git add操作</strong></h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">reset</span> <span class="keyword">HEAD</span>   (相当于把git <span class="keyword">add</span> . 操作的文件撤出暂存区)</span><br></pre></td></tr></table></figure>
+<h4 id="远程库里已经存在这文件夹，但又想忽略此文件夹"><a href="#远程库里已经存在这文件夹，但又想忽略此文件夹" class="headerlink" title="远程库里已经存在这文件夹，但又想忽略此文件夹"></a><strong>远程库里已经存在这文件夹，但又想忽略此文件夹</strong></h4><p><img src="/images/gitignore.png" alt=""></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached filepath <span class="comment">#删除库里的文件记录</span></span><br><span class="line">git <span class="keyword">add</span><span class="bash"> .</span></span><br><span class="line"><span class="bash">git commit -m <span class="string">'fiexed gitIgnore '</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="合并多次的提交"><a href="#合并多次的提交" class="headerlink" title="合并多次的提交"></a><strong>合并多次的提交</strong></h4><p>有时我们会为修改一个BUG而提交多次，（修复一个BUG，提交后，由测试人员确认，发现还是有问题，然后继续做修复-提交的动作）<br>这时候就会感觉这多次的提交没有必要的，查看日志时也显得很凌乱。所以有必要对这些的提交进行合并提交的动作。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git rebase -<span class="selector-tag">i</span> HEAD^^  #合并近两次的提交</span><br><span class="line">#or</span><br><span class="line">git rebase -<span class="selector-tag">i</span> HEAD^^^ #合并近三次的提交</span><br><span class="line">#or</span><br><span class="line">git rebase -<span class="selector-tag">i</span> b3958ef #合并b3958ef之前的提交记录</span><br></pre></td></tr></table></figure>
+<p>实例如下：</p>
+<p><img src="/images/git-rebase-1.png" alt=""></p>
+<p><img src="/images/git-rebase-2.png" alt=""></p>
+<p><img src="/images/git-rebase-3.png" alt=""></p>
+<p><img src="/images/git-rebase-4.png" alt=""></p>
+<p><img src="/images/git-rebase-5.png" alt=""></p>
+<p><img src="/images/git-rebase-6.png" alt=""></p>
+<h4 id="上线版本，打tag加版本号"><a href="#上线版本，打tag加版本号" class="headerlink" title="上线版本，打tag加版本号"></a>上线版本，打tag加版本号</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建轻量标签</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag v0.1.2-light</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建附注标签</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag -a v0.1.2 -m “0.1.2版本”</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 用git show命令可以查看标签的版本信息</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git show v0.1.2</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag -d v0.1.2 <span class="comment"># 删除标签</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git tag -a v0.1.1 4fbc5d0  <span class="comment">#给指定的commit打标签 </span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git push origin v0.1.2 <span class="comment"># 将v0.1.2标签提交到git服务器</span></span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/07/09/git常用命令汇总/" data-id="cjd4gspse001t0ov9z68x4hgs" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/07/09/防淘宝注册验证滑动效果/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          防淘宝注册验证滑动效果
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/06/19/jQuery.ajax在IE中跨域请求/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">jQuery.ajax在IE中跨域请求</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#实际用到的命令-持续更新中…"><span class="toc-number">1.</span> <span class="toc-text">实际用到的命令(持续更新中…)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#生成SSH-key"><span class="toc-number">1.1.</span> <span class="toc-text">生成SSH key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#检出历史版本到分支"><span class="toc-number">1.2.</span> <span class="toc-text">检出历史版本到分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#常用的自定义命令"><span class="toc-number">1.3.</span> <span class="toc-text">常用的自定义命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置不忽略大小写"><span class="toc-number">1.4.</span> <span class="toc-text">设置不忽略大小写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#提交代码不用输入用户名密码"><span class="toc-number">1.5.</span> <span class="toc-text">提交代码不用输入用户名密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#撤销git-add操作"><span class="toc-number">1.6.</span> <span class="toc-text">撤销git add操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#远程库里已经存在这文件夹，但又想忽略此文件夹"><span class="toc-number">1.7.</span> <span class="toc-text">远程库里已经存在这文件夹，但又想忽略此文件夹</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#合并多次的提交"><span class="toc-number">1.8.</span> <span class="toc-text">合并多次的提交</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#上线版本，打tag加版本号"><span class="toc-number">1.9.</span> <span class="toc-text">上线版本，打tag加版本号</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

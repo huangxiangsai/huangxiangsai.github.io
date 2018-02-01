@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>你所不知道的跨域资源共享(CORS) | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对网上现有的跨域资源共享中，讲到的简单请求部分，进行更为深入分析。">
+<meta name="keywords" content="CORS,跨域资源共享">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你所不知道的跨域资源共享(CORS)">
+<meta property="og:url" content="http://www.devsai.com/2016/12/15/little-know-cors/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="对网上现有的跨域资源共享中，讲到的简单请求部分，进行更为深入分析。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/images/2016/cors/preflight01.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/cors/preflight02.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/cors/preflight03.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/cors/preflight05.png">
+<meta property="og:image" content="http://www.devsai.com/images/2016/cors/preflight04.png">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你所不知道的跨域资源共享(CORS)">
+<meta name="twitter:description" content="对网上现有的跨域资源共享中，讲到的简单请求部分，进行更为深入分析。">
+<meta name="twitter:image" content="http://www.devsai.com/images/2016/cors/preflight01.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-little-know-cors" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/little-know-cors/" class="article-date">
+  <time datetime="2016-12-14T16:00:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      你所不知道的跨域资源共享(CORS)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>有没有一看到讲跨域资源共享的就不想再看的了，网上的跨域资源共享的博文，三天两头的就出一篇。</p>
+<p>既然你已经进来看了，还请你稍稍忍耐下，继续往下看，或许你会发现和之前看到的有不一样的收获。</p>
+<p>（亲，东西保您好，不好不要钱哦~~）</p>
+<p>其实，之前看过我写的文章的同学可能知道，我写过一篇关于《跨域及跨域资源共享》（没有看过的同学，可以从这<a href="http://www.devsai.com/2016/11/24/talk-CORS/" target="_blank">进去</a>）。比较全面的介绍了跨域的多种解决方案，以及说明了跨域资源共享.</p>
+<p>你们会不会想：那既然已经写过了，为什么又写一篇？ 是不是博主已经没啥东西可写了。</p>
+<p>别急，接下来，让我跟你们慢慢道来。</p>
+<h1 id="你们所知道的"><a href="#你们所知道的" class="headerlink" title="你们所知道的"></a>你们所知道的</h1><p>看过之前写的《跨域及跨域资源共享》或看过多篇CORS文章的同学可以选择性的跳过这一小段了。</p>
+<p>就像你们看到过的相关的文章，讲跨域资源共享，一般讲其原理时，必定要讲到跨域资源共享的请求有两种（也有很多没有讲到）：</p>
+<blockquote>
+<p>   简单请求 （Simple Request）<br>   预检测请求 (Preflight Request)</p>
+</blockquote>
+<p>然后就会进一步的讲到，什么时候发只发简单请求，又什么时候会在发真实的请求前，先发预检测请求，普遍的都是这么说的（包括我之前写的也是）</p>
+<p>以下几种情况时都满足时是简单请求</p>
+<p><strong>request header 是简单的请求头</strong></p>
+<blockquote>
+<p>   Accept<br>   Accept-Language<br>   Content-Language<br>   Last-Event-ID<br>   Content-Type<br>  等等非自定义的请求头</p>
+</blockquote>
+<p><strong>request method 是下面的请求类型</strong></p>
+<blockquote>
+<p>   HEAD<br>   GET<br>   POST</p>
+</blockquote>
+<p><strong>Content-Type 只限三个值</strong></p>
+<blockquote>
+<p>   application/x-www-form-urlencoded、multipart/form-data、text/plain</p>
+</blockquote>
+<p>如果不满足以上条件的都会先发送预检测请求，即为<code>OPTIONS</code>请求类型的请求</p>
+<p>几乎都是这么说的，差别只是描述方式不同，比例下面的别人写的：</p>
+<p><img src="/images/2016/cors/preflight01.png" alt=""></p>
+<p>什么？ 不信， 那你随便搜索几篇相关的文章看看。</p>
+<h1 id="那么，这有什么问题"><a href="#那么，这有什么问题" class="headerlink" title="那么，这有什么问题"></a>那么，这有什么问题</h1><p>先来做个例子吧。</p>
+<p>假设要实现带进度条的上传功能，接口不是同域上的，服务端已经给配置了支持跨域资源共享的响应头，那我们直接用XmlHttpRequest就可以了</p>
+<p>javaScript代码大概如下：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XmlHttpRequest();</span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">xhr.upload.onprogress = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">xhr.open(<span class="string">'POST'</span>,<span class="string">'http://127.0.0.1/upload'</span>);</span><br><span class="line"><span class="keyword">var</span> fd = <span class="keyword">new</span> FormData();</span><br><span class="line">fd.append(<span class="string">'file'</span>,file);</span><br><span class="line">xhr.send(fd);</span><br></pre></td></tr></table></figure>
+<p>然后上传文件并查看下请求</p>
+<p><img src="/images/2016/cors/preflight02.png" alt=""></p>
+<p>What? 为什么会有两个请求啊。 是不是它不满足简单请求的要求（已不记得简单请求的同学往上再看看）</p>
+<p>那么，我们来看看该真实请求的请求头</p>
+<p><img src="/images/2016/cors/preflight03.png" alt=""></p>
+<p>简单请求要求：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">要求点</th>
+<th style="text-align:center">实际内容</th>
+<th style="text-align:center">是否满足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">请求方式</td>
+<td style="text-align:center">POST</td>
+<td style="text-align:center">满足</td>
+</tr>
+<tr>
+<td style="text-align:center">请求头</td>
+<td style="text-align:center">都是非自定义的请求头</td>
+<td style="text-align:center">满足</td>
+</tr>
+<tr>
+<td style="text-align:center">Content-Type</td>
+<td style="text-align:center">multipart/form-data</td>
+<td style="text-align:center">满足</td>
+</tr>
+</tbody>
+</table>
+<p>不是都满足了吗？那为什么，会有两个请求，为什么在发送真实请求前还发了<code>OPTIONS</code>方式的请求。</p>
+<p>为什么！！！整个人感觉都不好了！！！</p>
+<h1 id="变个魔术"><a href="#变个魔术" class="headerlink" title="变个魔术"></a>变个魔术</h1><p>把上面的javaScript代码改动下:</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="type">XmlHttpRequest</span>();</span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span></span>() &#123;</span><br><span class="line">	<span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">xhr.open(<span class="string">'POST'</span>,<span class="string">'http://127.0.0.1/upload'</span>);</span><br><span class="line"><span class="keyword">var</span> fd = <span class="keyword">new</span> <span class="type">FormData</span>();</span><br><span class="line">fd.append(<span class="string">'file'</span>,file);</span><br><span class="line">xhr.send(fd);</span><br></pre></td></tr></table></figure>
+<p>去掉了<code>xhr.upload.onprogress</code>，上传后再来看下请求及请求头：</p>
+<p><img src="/images/2016/cors/preflight05.png" alt=""></p>
+<p><img src="/images/2016/cors/preflight04.png" alt=""></p>
+<p>只有一个请求，请求头内容还都一样。 (这到底是怎么回事…有种再也不相信爱情的赶觉了！！！)</p>
+<p>看到这里的同学，有木有觉得博主在坑你们，放了两张相同的请求头截图就想糊弄。</p>
+<p>俗话说得好，不试不知道，一试吓一跳，要不，你们也亲自试试，一试便知真假。</p>
+<p>再次双手奉上<a href="https://github.com/huangxiangsai/web-upload-demo" target="_blank">demo</a>（喜欢的顺便点个赞哦~）。</p>
+<h1 id="分析问题"><a href="#分析问题" class="headerlink" title="分析问题"></a>分析问题</h1><p>从上面的两小段JS看出，只是去除了上传的进度信息事件。也就是说加了进度事件就多发了个预检测请求。</p>
+<p>那么，还有没有其他的事件了？添加其他的事件会不会也会发送预检测请求呢？</p>
+<p>事件有<code>onerror</code>,<code>onloadstart</code>等等。经过博主的测试，上述答案是肯定的，添加其他事件后，确实也会发生预检测请求。</p>
+<p>追求真理的同学们，在博主的demo里改改试试吧。</p>
+<p>现在已经知道了问题的所在，由上传相关事件导致了跨域请求多发了预检测请求，说好的简单请求(Simple Request)呢~</p>
+<p>博主抱着对问题刨根问底的精神，再次查看<a href="http://www.w3.org/TR/cors/#resource-requests" target="_blank">cors</a>相关文档，找到了如下的内容：</p>
+<blockquote>
+<ul>
+<li><p>If the following conditions are true, follow the simple cross-origin request algorithm:</p>
+<ul>
+<li><p>The request method is a simple method and the force preflight flag is unset.</p>
+</li>
+<li><p>Each of the author request headers is a simple header or author request headers is empty.</p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>通过这段，我们知道，原来除了我们所知道的简单请求的几大特征外，还提到了<code>force preflight flag</code>，这是什么鬼？</p>
+<p>难道是因为设置了它？ 那么什么时候设置了<code>force preflight flag</code>?</p>
+<p>上面我们知道了因为上传事件导致了发送预检测请求，会不会是上传监听事件的时候给设置了<code>force preflight flag</code>，<br>然后在<a href="http://www.w3.org/TR/2011/WD-XMLHttpRequest2-20110816/" target="_blank">XmlHttpRequest level 2</a> 中的找到了相关的内容，以证实我的猜测是正确的。</p>
+<p>有下面几段内容：</p>
+<blockquote>
+<p>   force preflight flag<br>       The upload events flag.</p>
+</blockquote>
+<p>从这段可以知道，<code>force preflight flag</code>与<code>upload events flag</code>是对应的,看到这里就知道了，只要<code>upload events flag</code>被设置<code>true</code></p>
+<p>那么就等于<code>force preflight flag</code>被设置了<code>true</code>，这时，不管请求的类型的是不是<em>simple method</em>，也不管请求头是不是<em>simple header</em>，都会先发送预检测请求。</p>
+<p>接下来，我们再来看看<code>upload events flag</code>会在什么情况下被设置呢？</p>
+<blockquote>
+<p>   If the asynchronous flag is true and one or more event listeners are registered on the XMLHttpRequestUpload object set the upload events flag to true. Otherwise, set the upload events flag to false.</p>
+</blockquote>
+<p>原来，当<code>asynchronous flag</code>为<code>true</code>并且XMLHttpRequestUpload(即示例中的xhr.upload)的一个或多个事件被监听的时候，<code>upload listener flag</code>就会被设置了。</p>
+<p>这也正如之前测试的，当加了<code>xhr.upload.onprogress</code>后，出现了预检测请求。</p>
+<p>到这里总算水落石出了。</p>
+<p>这里还需要说明的一点是，<code>the asynchronous flag</code>就是<code>xhr.open()</code>的第三个参数，当未设置第三参数时，默认为异步，也就是<code>the asynchronous flag</code>为<code>true</code></p>
+<p>如果第三个参数设置为<code>false</code>，那么即使有上传的监听事件也不会发送预检测请求（Preflight Reuqest）</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以后还会不会理直气壮的在别人面前说，只要是满足几大条件（是非自定义的请求头，是<code>GET</code>or<code>POST</code>or<code>HEAD</code>,或<code>Content-Type</code>是那三种值的）就是简单请求 ，就不会发生预检测请求。</p>
+<p>通过本文可知，并非满足这几大条件就一定是简单请求的，<br>应该要加个前置条件，是否是在上传请求中跨域，是否是异步的，是否监听了上传事件。</p>
+<p>看到这，可能你想说，写这么多有啥用，对实际开发有帮助吗？或许没什么实际的帮助吧，又或许你也不会碰到吧。</p>
+<p>但，最起码当你碰到的时候，你看到了两个请求，再看了下代码，你已经心里就有数了，知道这是怎么一回事了。</p>
+<p>一直认为，做技术的对碰到的问题要知其然，更要知其所以然。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/12/15/little-know-cors/" data-id="cjd4gspsi001y0ov9nq60ltep" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CORS/">CORS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/跨域资源共享/">跨域资源共享</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/03/mongodb-install/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          mac下mongoDB的安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/10/backbone-events/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Backbone系列篇之Backbone.Events源码解析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#你们所知道的"><span class="toc-number">2.</span> <span class="toc-text">你们所知道的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#那么，这有什么问题"><span class="toc-number">3.</span> <span class="toc-text">那么，这有什么问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变个魔术"><span class="toc-number">4.</span> <span class="toc-text">变个魔术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#分析问题"><span class="toc-number">5.</span> <span class="toc-text">分析问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

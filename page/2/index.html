@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="分享技术，不断提高，不断前行，黄向赛的个人技术博客，http://www.devsai.com，关注技术，关注前端，关注后端，关注移动端">
+<meta name="keywords" content="个人，博客，个人博客，技术博客，SAI，向赛，devsai，黄向赛，前端开发，关注前端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SAI的技术博客">
+<meta property="og:url" content="http://www.devsai.com/page/2/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="分享技术，不断提高，不断前行，黄向赛的个人技术博客，http://www.devsai.com，关注技术，关注前端，关注后端，关注移动端">
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SAI的技术博客">
+<meta name="twitter:description" content="分享技术，不断提高，不断前行，黄向赛的个人技术博客，http://www.devsai.com，关注技术，关注前端，关注后端，关注移动端">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-git-fail" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/08/git-fail/" class="article-date">
+  <time datetime="2016-04-07T16:00:00.000Z" itemprop="datePublished">2016-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/08/git-fail/">Git出错 Fatal:multiple Stage Entriesfor Merged File</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>已经遇到过好几次这样的情况了</p>
+<p>GIT报错：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fata<span class="variable">l:multiple</span> stage entries <span class="keyword">for</span> merged <span class="keyword">file</span></span><br></pre></td></tr></table></figure>
+<p>在网上找下，也能很容易的找到对应的解决方案，方案如下：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm .git/index</span><br><span class="line">git <span class="keyword">add</span><span class="bash"> -A</span></span><br><span class="line"><span class="bash">git commit -m <span class="string">'fix git fatal error'</span></span></span><br></pre></td></tr></table></figure>
+<p>但对于为什么会出现这样的错误，一直找不到个说法。希望知道原因的朋友能帮我解答疑惑。</p>
+<blockquote>
+<pre><code>自认为一个好的码农要知其然，更要知其所以然。
+</code></pre></blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/04/08/git-fail/" data-id="cjd4gspsb001r0ov9eqq3xkgb" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-postMessage" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/17/postMessage/" class="article-date">
+  <time datetime="2016-02-16T16:00:00.000Z" itemprop="datePublished">2016-02-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/17/postMessage/">HTML5 Cross-Document Messaging(postMessage)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>window.postMessage是html5的新特性之一，<br>可以使用它来向其它的window对象发送消息，不管这个window对象是属于同源或不同源。</p>
+<p>通过Cross-Document Messaging允许浏览器<strong>windows, tabs, and iFrames</strong>之间跨域通讯。</p>
+<p>我们使用<code>postMessage()</code>方法去发送一条信息。</p>
+<p><strong>postMessage发送信息</strong></p>
+<p>postMessage需要接受两个参数</p>
+<ul>
+<li><strong>message</strong> 要发送的信息，可以是<code>string</code>也可以<code>object</code></li>
+<li><strong>targetOrigin</strong> 接受信息的窗口的地址，这地址由接受窗口的protocol, port and hostname组成<br>也可以使用<code>*</code>来匹配任意的URL，但这会存在安全问题。</li>
+</ul>
+<p>这postMessage方法是被<strong>要接受信息的window所调用</strong>。</p>
+<p>例如我们可以使用</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="keyword">new</span><span class="type">_wd</span> = window.open(<span class="string">'http://demos.devsai.com'</span>);</span><br></pre></td></tr></table></figure>
+<p>打开一个新tab,<br>‘window.open’返回的就是新打开的<code>window</code>对象,<br>所以就可以这样来给新打开的window、tab窗口发送信息,</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span><span class="type">_wd</span>.postMessage(<span class="string">'hello demos'</span>,<span class="string">'http://demos.devsai.com/postmessage/receiver.html'</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>window接受信息</strong></p>
+<p>如上述例子，可以在<code>http://demos.devsai.com/postmessage/receiver.html</code>中添加如下代码:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> receiverHandler = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (e.origin !== <span class="string">"http://www.devsai.com"</span>)<span class="comment">//判断是哪个域过来的信息</span></span><br><span class="line">     		<span class="keyword">return</span>;</span><br><span class="line">	<span class="built_in">console</span>.log(e.data);<span class="comment">//接收到的信息</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>,receiverHandler);</span><br></pre></td></tr></table></figure>
+<p>接收的窗口除了使用<code>window.open</code>打开的以外，还可以是iframe窗口,我们可以通过以下代码获得iframe的window对象，<br>并对iframe发送信息.</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> iframe_win = <span class="built_in">document</span>.getElementById(<span class="string">'recevier'</span>).contentWindow;</span><br><span class="line">iframe_win.postMessage(<span class="string">'hello iframe'</span>,<span class="string">'http://demos.devsai.com/postmessage/receiver.html'</span>);</span><br><span class="line"><span class="comment">##</span></span><br></pre></td></tr></table></figure>
+<p><strong>浏览器的支持</strong><br>现在主流的浏览器都是支持<code>postMessage()</code>，也包括IE8+,但在IE8、IE9中还是有限制的，只能在docuemnt与iframe之间通讯才可使用<code>postMessage()</code>,想要在跨window或者tab之间通讯必须是IE10+.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">IE</th>
+<th style="text-align:center">FIREFOX</th>
+<th style="text-align:center">CHROME</th>
+<th style="text-align:center">SAFARI</th>
+<th style="text-align:center">OPERA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">8+</td>
+<td style="text-align:center">3.0+</td>
+<td style="text-align:center">1.0+</td>
+<td style="text-align:center">4.0+</td>
+<td style="text-align:center">9.5+</td>
+</tr>
+</tbody>
+</table>
+<p>最后，<a href="/demo/postmessage/sender.html" target="_blank">想看DEMO,在这里穿越</a></p>
+<p>DEMO也放在了github上，想要看code的同学，<a href="https://github.com/huangxiangsai/postMessage-demo" target="_blank">点击这里</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/02/17/postMessage/" data-id="cjd4gspsw002e0ov9yd85zrid" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML5/">HTML5</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postMessage/">postMessage</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-bower下载依赖时git 超时问题" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/03/bower下载依赖时git 超时问题/" class="article-date">
+  <time datetime="2015-09-03T08:36:59.000Z" itemprop="datePublished">2015-09-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/03/bower下载依赖时git 超时问题/">Bower下载依赖时git 超时问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+              bower就是一个前端的依赖包管理器，就相当于java中流行的依赖管理工具MAVEN。bower与npm很像，但又不同，我的理解是,bower主要服务于web项目前端依赖,而npm 则主要服务于nodejs.
+          
+        
+          <p class="article-more-link">
+            <a href="/2015/09/03/bower下载依赖时git 超时问题/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/09/03/bower下载依赖时git 超时问题/" data-id="cjd4gsps1001h0ov9z6gzroiz" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-ssh连接时脚本自动执行" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/10/ssh连接时脚本自动执行/" class="article-date">
+  <time datetime="2015-08-10T08:36:59.000Z" itemprop="datePublished">2015-08-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/10/ssh连接时脚本自动执行/">Ssh连接时脚本自动执行</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>每次登陆远程服务器时，都会自动的执行当前用户下的.bash_profile文件。</p>
+<p>只需要在里面写入你想要的脚本执行语句，就可以实现ssh连接时自动执行脚本的功能了.</p>
+<p>示例如下:</p>
+<p>登陆到服务器后 通过命令编写脚本 :<code>cd ~/ &amp;&amp; vim .bash_profile</code></p>
+<p>添加红色区内容 :<br><img src="/images/2015/08/edit.jpg" alt="edit"></p>
+<p>保存后， ssh退出重新连接。</p>
+<p><img src="/images/2015/08/edited.jpg" alt=""></p>
+<p>就能看到我们写的内容被执行了。</p>
+<p>当然 你可以做些更有意义的、更复杂的事情.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/08/10/ssh连接时脚本自动执行/" data-id="cjd4gspt6002l0ov9zzsszf2v" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/">ssh</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-liunx中获得文件的修改日期" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/11/liunx中获得文件的修改日期/" class="article-date">
+  <time datetime="2015-07-11T08:36:59.000Z" itemprop="datePublished">2015-07-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/11/liunx中获得文件的修改日期/">Liunx中获得文件的修改日期</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>有时候，我们需要知道某个文件有没有被修改过，以此做出相应的处理。</p>
+<p>在liunx中， 就可以使用以下的脚本来实现 ：</p>
+<pre><code>stat openapi.less | grep -i Modify | awk -F. &apos;{print $1}&apos; | awk &apos;{print $2$3}&apos;| awk -F- &apos;{print $1$2$3}&apos; | awk -F: &apos;{print $1$2$3}&apos;
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/07/11/liunx中获得文件的修改日期/" data-id="cjd4gspsr00280ov9o3alg9p3" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-防淘宝注册验证滑动效果" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/09/防淘宝注册验证滑动效果/" class="article-date">
+  <time datetime="2015-07-09T08:36:59.000Z" itemprop="datePublished">2015-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/09/防淘宝注册验证滑动效果/">防淘宝注册验证滑动效果</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>不多废话，直接看效果。</p>
+<p></p><p data-height="268" data-theme-id="0" data-slug-hash="BNEPON" data-default-tab="result" data-user="huangxiangsai" class="codepen">See the Pen <a href="http://codepen.io/huangxiangsai/pen/BNEPON/" target="_blank" rel="noopener">BNEPON</a> by 黄向赛 (<a href="http://codepen.io/huangxiangsai" target="_blank" rel="noopener">@huangxiangsai</a>) on <a href="http://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="http://assets.codepen.io/assets/embed/ei.js"></script>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/07/09/防淘宝注册验证滑动效果/" data-id="cjd4gspth002t0ov9yx98fngh" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-git常用命令汇总" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/07/09/git常用命令汇总/" class="article-date">
+  <time datetime="2015-07-09T08:36:59.000Z" itemprop="datePublished">2015-07-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/09/git常用命令汇总/">Git常用命令汇总</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+              前段时间由于工作需要，把项目从svn迁至了git上。
+为此，公司的git高手做了一次分享。我们这些小白也从网上找资源，以便能尽快的入门。
+在这过程中，队里伙伴找到了张图片，非常全的总结了git的常用命令。
+虽然都不知道这图是谁分享的，但还是非常的感谢。
+          
+        
+          <p class="article-more-link">
+            <a href="/2015/07/09/git常用命令汇总/#more">继续阅读全文 »</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/07/09/git常用命令汇总/" data-id="cjd4gspse001t0ov9z68x4hgs" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-jQuery.ajax在IE中跨域请求" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/19/jQuery.ajax在IE中跨域请求/" class="article-date">
+  <time datetime="2015-06-19T08:36:59.000Z" itemprop="datePublished">2015-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/19/jQuery.ajax在IE中跨域请求/">jQuery.ajax在IE中跨域请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在小的项目中，估计永远都不会碰到跨域请求的问题。始终都是在一个域下面，可能连静态和动态都是在一起。</p>
+<p>但是一个大项目，会将里面的业务拆分成多个子项目，根据业务的不同，子项目都会有它自己的子域。 所以在主项目中，访问不同业务下的接口，将会发生跨域的问题。</p>
+<p>一般我们对于跨域会采用下以两种方式解决：</p>
+<blockquote>
+<ol>
+<li><p>通过在返回的头部 <code>Access-Control-Allow-Origin</code> 添加指定的域，来允许跨域。</p>
+</li>
+<li><p>使用jsonp方式，实现跨域请求。</p>
+</li>
+</ol>
+</blockquote>
+<p>然而，很多时候，接口已经存在，并且已经在别处使用（不存在跨域问题），这时，一个在不同域的地方需要调用这个接口，我们第一想到的就是使用上述的第一种方式来解决跨域问题。</p>
+<p>因为这样改动是最小的（程序猿都很懒的）</p>
+<p>我也是一样，后端的童鞋改完后，我在chrome上调试下可以了。（我真的很厉害，虽然代码都不是我改的，只是刷了下页面）。</p>
+<p>完了，在我们可爱的IE上也要试试的（我是IE9），不试不知道，一试吓一跳，通过fiddler居然没有找到请求。（IE真调皮）</p>
+<p>没办法只有打开IE简陋的调试工具，在对应的<code>done</code>和<code>fail</code>中打印些信息出来。再次刷新页面后，果然进入的fail，并打印出了 <code>no transport</code> 。</p>
+<p>这是什么错，没见过啊。于是就开始各种搜索， 搜索的结果，大致有两类，</p>
+<p>一种是说，这跟IE的安全设置有关，要进入xxx &gt;&gt; xxx 然后再设置下就好了。</p>
+<p>还有一种是说，直接换成<code>jsonp</code>吧。</p>
+<p>第一种完全不靠谱，不可能让每个用户都这么干啊，pass ,第二种嘛，不多说了，还是再找找其他的方法吧。实在没办法才去想这么做。</p>
+<p>最终，还在通过万能的google，找到了解决方法。 需要通过<code>jQuery.ajaxTransport</code>方法来设置一个对象，当然只需要在IE10以下的版本中使用就可以了。具体的代码如下：</p>
+<pre><code>if (!jQuery.support.cors &amp;&amp; window.XDomainRequest) {
+            var httpRegEx = /^https?:\/\//i;
+            var getOrPostRegEx = /^get|post$/i;
+            var sameSchemeRegEx = new RegExp(&apos;^&apos;+location.protocol, &apos;i&apos;);
+            var xmlRegEx = /\/xml/i;
+
+            // ajaxTransport exists in jQuery 1.5+
+            jQuery.ajaxTransport(&apos;text html xml json&apos;, function(options, userOptions, jqXHR){
+                // XDomainRequests must be: asynchronous, GET or POST methods, HTTP or HTTPS protocol, and same scheme as calling page
+                if (options.crossDomain &amp;&amp; options.async &amp;&amp; getOrPostRegEx.test(options.type) &amp;&amp; httpRegEx.test(userOptions.url) &amp;&amp; sameSchemeRegEx.test(userOptions.url)) {
+                    var xdr = null;
+                    var userType = (userOptions.dataType||&apos;&apos;).toLowerCase();
+                    return {
+                        send: function(headers, complete){
+                            xdr = new XDomainRequest();
+                            if (/^\d+$/.test(userOptions.timeout)) {
+                                xdr.timeout = userOptions.timeout;
+                            }
+                            xdr.ontimeout = function(){
+                                complete(500, &apos;timeout&apos;);
+                            };
+                            xdr.onload = function(){
+                                var allResponseHeaders = &apos;Content-Length: &apos; + xdr.responseText.length + &apos;\r\nContent-Type: &apos; + xdr.contentType;
+                                var status = {
+                                    code: 200,
+                                    message: &apos;success&apos;
+                                };
+                                var responses = {
+                                    text: xdr.responseText
+                                };
+
+                                try {
+                                    if (userType === &apos;json&apos;) {
+                                        try {
+                                            responses.json = JSON.parse(xdr.responseText);
+                                        } catch(e) {
+                                            status.code = 500;
+                                            status.message = &apos;parseerror&apos;;
+                                            //throw &apos;Invalid JSON: &apos; + xdr.responseText;
+                                        }
+                                    } else if ((userType === &apos;xml&apos;) || ((userType !== &apos;text&apos;) &amp;&amp; xmlRegEx.test(xdr.contentType))) {
+                                        var doc = new ActiveXObject(&apos;Microsoft.XMLDOM&apos;);
+                                        doc.async = false;
+                                        try {
+                                            doc.loadXML(xdr.responseText);
+                                        } catch(e) {
+                                            doc = undefined;
+                                        }
+                                        if (!doc || !doc.documentElement || doc.getElementsByTagName(&apos;parsererror&apos;).length) {
+                                            status.code = 500;
+                                            status.message = &apos;parseerror&apos;;
+                                            throw &apos;Invalid XML: &apos; + xdr.responseText;
+                                        }
+                                        responses.xml = doc;
+                                    }
+                                } catch(parseMessage) {
+                                    throw parseMessage;
+                                } finally {
+                                    complete(status.code, status.message, responses, allResponseHeaders);
+                                }
+                            };
+                            xdr.onerror = function(){
+                                complete(500, &apos;error&apos;, {
+                                    text: xdr.responseText
+                                });
+                            };
+                            xdr.open(options.type, options.url);
+                            //xdr.send(userOptions.data);
+                            xdr.send();
+                        },
+                        abort: function(){
+                            if (xdr) {
+                                xdr.abort();
+                            }
+                        }
+                    };
+                }
+            });
+        };
+        jQuery.support.cors = true;
+        $.ajax({
+            crossDomain: true,
+            url : &apos;http://127.0.0.1:8080/fm/json&apos;,
+            type : &apos;GET&apos;,
+            dataType : &apos;json&apos;,
+        }).done(successHandler)
+        .fail(function() {
+            console.log(&apos;error&apos;);
+        });
+</code></pre><p>上面的代码看不是很清楚的话，有某个大神在JSFiddle中的demo,见花献佛了。<em><a href="http://jsfiddle.net/bjW8t/4/" target="_blank" rel="noopener">想看DEMO请猛击这里</a></em>。</p>
+<p>再次刷IE，成功执行。 </p>
+<p>随便再说下，在搜索这问题的时候，也有很多告诉说添加这一句<code>jQuery.support.cors = true;</code>就好了， 可添加了这句后，<code>no transport</code>的错是没了，但会报其他的错。然后就没然后了。</p>
+<p>所以希望碰到这类问题的童鞋能看到这篇，也希望能对你有实质性的帮助。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/06/19/jQuery.ajax在IE中跨域请求/" data-id="cjd4gspsg001w0ov9u9sm31j4" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-css之内容居中显示内容" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/15/css之内容居中显示内容/" class="article-date">
+  <time datetime="2015-06-15T08:36:59.000Z" itemprop="datePublished">2015-06-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/15/css之内容居中显示内容/">Css之内容居中显示内容</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>之前一直知道想要居中显示元素  就需要如下样式</p>
+<pre><code>margin:0 auto;
+</code></pre><p>但实际用起来 总不那么顺心，经常性的，有时有效果 ，有时又没效果了。</p>
+<p>总结一句话，我的css弱爆了。 </p>
+<p>为此请教了公司css专家 ，经过仔细的讲述后，学会了两种可居中的方法</p>
+<ul>
+<li><p>就像我前面提到的一样<code>margin:0 auto;</code>  确实可以居中 。</p>
+<p>但是，是有条件的， 需要居中的元素必须是设定了宽了的，而且不能是百分比，否则就没看不出效果。</p>
+</li>
+<li><p>还有种方式就是<code>text-align:center;</code>  之前我一直以为这属性只能用作文本的居中，其实它也能作为元素的居中，</p>
+<p>但也有个要注意的地方，居中的元素不能是块级元素，只能是行内元素。  </p>
+<p>如果想让一个块级元素使用这种的居中方式，那么就必须让其变成行内元素。</p>
+<p>可以通过设置CSS  <code>display</code>属性，设置为<code>inline</code> 或者<code>inline-block</code> 使元素变为行内元素。</p>
+</li>
+</ul>
+<p>下面通过几个例子来看看上所述两种方法的效果:</p>
+<p></p><p data-height="268" data-theme-id="0" data-slug-hash="gapQvr" data-default-tab="result" data-user="huangxiangsai" class="codepen">See the Pen <a href="http://codepen.io/huangxiangsai/pen/gapQvr/" target="_blank" rel="noopener">gapQvr</a> by 黄向赛 (<a href="http://codepen.io/huangxiangsai" target="_blank" rel="noopener">@huangxiangsai</a>) on <a href="http://codepen.io" target="_blank" rel="noopener">CodePen</a>.</p><p></p>
+<script async src="http://assets.codepen.io/assets/embed/ei.js"></script>
+
+<p>上面这个例子，就同时用到了两种元素居中方式。外层使用了margin的居中，里面层使用了text-align的方式居中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/06/15/css之内容居中显示内容/" data-id="cjd4gsps5001m0ov9a5xlj2ww" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-liunx环境压缩" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/25/liunx环境压缩/" class="article-date">
+  <time datetime="2015-05-25T08:36:59.000Z" itemprop="datePublished">2015-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/25/liunx环境压缩/">Liunx环境压缩</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="普通压缩"><a href="#普通压缩" class="headerlink" title="普通压缩"></a>普通压缩</h2><hr>
+<p>在liunx环境中最常用的压缩应该就是<code>tar</code>。 所以只对<code>tar</code>做下记录。当然还有很多的压缩方式可用。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span> filename ...</span><br></pre></td></tr></table></figure></p>
+<p>解压<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span>  path</span><br></pre></td></tr></table></figure></p>
+<h2 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h2><hr>
+<p>我是很注重隐私的，所以有时候，对一些文件压缩的同时，还需要加密。+_+</p>
+<p>压缩加密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf  - filename |<span class="type">openssl</span> des3 -salt -k password | <span class="type">dd</span> of=filename.des3</span><br></pre></td></tr></table></figure></p>
+<p>此命令对filename文件进行加码压缩 生成filename.des3加密压缩文件， password 为加密的密码</p>
+<p>解压解密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=filename.des3 |<span class="type">openssl</span> des3 -d -k password | <span class="type">tar</span> zxf -</span><br></pre></td></tr></table></figure></p>
+<p>注意命令最后面的“-”  它将释放所有文件， -k password 可以没有，没有时在解压时会提示输入密码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/05/25/liunx环境压缩/" data-id="cjd4gspss002a0ov93nt3uyfi" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页&raquo;</a>
+  </nav>
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/01/2018-webp/">了解Webp</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/06/rn-depinstall/">React-Native开发前的见面礼--误入依赖坑</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/03/mongodb-install/">mac下mongoDB的安装</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/little-know-cors/">你所不知道的跨域资源共享(CORS)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/10/backbone-events/">Backbone系列篇之Backbone.Events源码解析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

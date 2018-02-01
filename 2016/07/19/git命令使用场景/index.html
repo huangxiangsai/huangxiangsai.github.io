@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git命令的使用场景 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在开发中不断的使用git,就会继续的遇到新的问题。 本篇会用场景带入的方式来说明我们在不同的时候使用不同的命令。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git命令的使用场景">
+<meta property="og:url" content="http://www.devsai.com/2016/07/19/git命令使用场景/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="在开发中不断的使用git,就会继续的遇到新的问题。 本篇会用场景带入的方式来说明我们在不同的时候使用不同的命令。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git命令的使用场景">
+<meta name="twitter:description" content="在开发中不断的使用git,就会继续的遇到新的问题。 本篇会用场景带入的方式来说明我们在不同的时候使用不同的命令。">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-git命令使用场景" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/19/git命令使用场景/" class="article-date">
+  <time datetime="2016-07-18T16:00:00.000Z" itemprop="datePublished">2016-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git命令的使用场景
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在开发中不断的使用git,就会继续的遇到新的问题。</p>
+<p>本篇会用场景带入的方式来说明我们在不同的时候使用不同的命令。</p>
+<h3 id="场景1-烦人的密码"><a href="#场景1-烦人的密码" class="headerlink" title="场景1 (烦人的密码)"></a>场景1 (烦人的密码)</h3><p>有时会遇到这样的问题，每次做 <code>git push</code> 的时候都要求输入用户名密码。</p>
+<p>有些人会想，我都添加了SSH key了为什么还要输入用户名密码。这时候你可以看下项目中 <code>.git/config</code><br>中remote远程地址是什么，如果是<code>http://...</code>这种形式的，恭喜问题找到了，把它改成<code>git@...</code>这种形式的地址<br>就不再要求输入用户名密码了。</p>
+<p>可就是想用<code>http://...</code>这种形式的呢，也是有办法的，但这就跟SSH key没有半毛钱关系了。<br>我们可以添加配置项把用户名密码保存在本地，不用每次提交都输用户名密码了 </p>
+<p><code>git config --global credential.helper store</code></p>
+<p>设置了这个后，再执行<code>git push ..</code>会提示输入用户名密码，但输入这次 之后就不会再要求输入用户名密码了</p>
+<h3 id="场景2-保护现场"><a href="#场景2-保护现场" class="headerlink" title="场景2 (保护现场)"></a>场景2 (保护现场)</h3><p>我们正在开发一新功能，这时产品跑过来说有个非常紧急的小需求要开发。非常紧急的，优先级最高的那种，你们懂得。</p>
+<p>可这是开发的新功能才写了一半的code,怎么办呢。如果不用git，我们可能会这样：</p>
+<p>把现有的代码copy一份，在到服务器拉份最新的代码下来，然后开发那个非常紧急的需求。</p>
+<p>当然这种做法很明显，很龊，很低效。</p>
+<p>现在我们使用git了，我们有’银弹’ ：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git stash </span><br><span class="line"></span><br><span class="line">git stash <span class="keyword">pop</span></span><br></pre></td></tr></table></figure>
+<p>第一个命令在我们突然有新需求插入时使用，它会保存下当前所有的修改文件，使工作区变成无修改的状态。</p>
+<p>这时就可以开发新需求了，可能中间会有一系列的命令<code>git add . &gt;&gt; git commit &gt;&gt; git push origin dev</code>等等</p>
+<p>在插入的新需求完成之后，就可以使用<code>git stash pop</code>把之前临时保存coding了一半的代码找回来，继续开发。</p>
+<h3 id="场景3-同一个问题，修复了N-1次，提交了N-1次，提交记录没法看怎么办"><a href="#场景3-同一个问题，修复了N-1次，提交了N-1次，提交记录没法看怎么办" class="headerlink" title="场景3 (同一个问题，修复了N+1次，提交了N+1次，提交记录没法看怎么办)"></a>场景3 (同一个问题，修复了N+1次，提交了N+1次，提交记录没法看怎么办)</h3><p>作为前端，遇到产品频繁改需求是比较常见的，所以很可能，同一点要改上很多次</p>
+<blockquote>
+<pre><code>持续更新中......
+</code></pre></blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2016/07/19/git命令使用场景/" data-id="cjd4gsps7001o0ov96owtsot6" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/08/talk-web-upload/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          聊聊Web上传
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/08/git-fail/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Git出错 Fatal:multiple Stage Entriesfor Merged File</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#场景1-烦人的密码"><span class="toc-number">1.</span> <span class="toc-text">场景1 (烦人的密码)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#场景2-保护现场"><span class="toc-number">2.</span> <span class="toc-text">场景2 (保护现场)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#场景3-同一个问题，修复了N-1次，提交了N-1次，提交记录没法看怎么办"><span class="toc-number">3.</span> <span class="toc-text">场景3 (同一个问题，修复了N+1次，提交了N+1次，提交记录没法看怎么办)</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

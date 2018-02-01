@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Demo postMessage Sender 	 		body{ 			width: 100%; 		}  		.page { 			width: 640px; 			margin : 0 auto; 			padding-top: 20px; 		}  		.fl { 			position: relative; 			float: left; 		} 		.mgl { 			ma">
+<meta name="keywords" content="个人，博客，个人博客，技术博客，SAI，向赛，devsai，黄向赛，前端开发，关注前端">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SAI的技术博客">
+<meta property="og:url" content="http://www.devsai.com/demo/postmessage/sender.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="Demo postMessage Sender 	 		body{ 			width: 100%; 		}  		.page { 			width: 640px; 			margin : 0 auto; 			padding-top: 20px; 		}  		.fl { 			position: relative; 			float: left; 		} 		.mgl { 			ma">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-09-23T02:41:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SAI的技术博客">
+<meta name="twitter:description" content="Demo postMessage Sender 	 		body{ 			width: 100%; 		}  		.page { 			width: 640px; 			margin : 0 auto; 			padding-top: 20px; 		}  		.fl { 			position: relative; 			float: left; 		} 		.mgl { 			ma">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="demo-undefined" class="article article-type-demo  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/demo/postmessage/sender.html" class="article-date">
+  <time datetime="2017-09-23T02:41:05.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo postMessage Sender</title>
+	<style>
+		body{
+			width: 100%;
+		}
+
+		.page {
+			width: 640px;
+			margin : 0 auto;
+			padding-top: 20px;
+		}
+
+		.fl {
+			position: relative;
+			float: left;
+		}
+		.mgl {
+			margin-left: 20px;
+		}
+
+		.cl{
+			clear: both;
+		}
+
+		.mgt{
+			margin-top: 15px;
+		}
+
+		#receiver {
+			border: 1px #eeeeee solid;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div class="page ">
+
+		<h3>iframe信息通信</h3>
+		<div class="fl ">
+			<label>1信息：</label>
+			<input type="text" placeholder="输入信息" id="sendInput">
+		</div>
+		<button class="mgl " onclick="send();">点击发送</button>
+
+		
+		
+		<div class="cl mgt">
+			<label>返回的信息：</label>
+			<span id="getData"></span>
+		</div>
+		
+		<br>
+
+		<iframe id="receiver" src="http://demos.devsai.com/demo/postmessage/receiver.html" width="500" height="200">
+		  <p>Your browser does not support iframes.</p>
+		</iframe>
+
+		<h3>与window、tabs之间信息通信</h3>
+		<div class=" ">
+			<label>2信息：</label>
+			<input type="text" placeholder="输入信息" id="sendInput2">
+		</div>
+		<div class="cl mgt">
+			<label>点击按钮打开新窗口:</label>
+			<button class="mgl " onclick="sendWindow();">点击发送</button>
+		</div>
+		<div class="cl mgt">
+			<label>新窗口返回的信息：</label>
+			<span id="getData2"></span>
+		</div>
+		
+		
+	</div>
+
+	<script type="text/javascript">
+
+		var receiver = document.getElementById('receiver').contentWindow;
+
+		function send (e) {
+			var value = document.getElementById('sendInput').value;
+			if('postMessage' in receiver){
+				receiver.postMessage( {input : 'getData', value : value} , 'http://demos.devsai.com');	
+			}
+		}
+
+
+		window.addEventListener('message', function(e) {
+			var data = e.data;
+			var result ;
+			if(data.input == 'getData'){
+				result = document.getElementById('getData');
+			}else if(data.input == 'getData2'){
+				result = document.getElementById('getData2');
+			}
+			result.innerHTML = data.value;
+		});
+
+		var new_w;
+
+		var w_params = 'height=380,width=440,left=100,top=100';
+
+		function sendWindow(){
+			var value = document.getElementById('sendInput2').value;
+			var send2 = function() {
+				new_w.postMessage( {input : 'getData2', value : value} , 'http://demos.devsai.com');	
+			};
+
+			if(new_w && !new_w.closed){
+				send2();
+			}else{
+				new_w = window.open('http://demos.devsai.com/demo/postmessage/receiver.html','',w_params);
+				//等待页面加载完再发送信息
+				setTimeout(send2, 1000);
+			}
+		}
+
+	</script>
+</body>
+</html>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/demo/postmessage/sender.html" data-id="cjd4gspup004x0ov9y1d8gzgq" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">iframe信息通信</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">与window、tabs之间信息通信</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
