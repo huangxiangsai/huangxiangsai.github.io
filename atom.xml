@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.devsai.com/"/>
-  <updated>2018-02-01T12:22:51.000Z</updated>
+  <updated>2018-04-07T12:35:32.826Z</updated>
   <id>http://www.devsai.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Node-Sass安装失败引发的思考</title>
+    <link href="http://www.devsai.com/2018/04/07/node-sass-trouble/"/>
+    <id>http://www.devsai.com/2018/04/07/node-sass-trouble/</id>
+    <published>2018-04-06T16:00:00.000Z</published>
+    <updated>2018-04-07T12:35:32.826Z</updated>
+    
+    <content type="html"><![CDATA[<p>在mac OS或liunx系统下，有时候在安装node-sass时会出现，<code>Permissions Errors</code></p><p>可能出现的情况是这样:</p><p><img src="../images/2018/node-sass-reinstall-error.png" alt="loop reinstall"></p><hr><p><strong>阅读后你将得到什么</strong></p><blockquote><ol><li>你将成功的解决node-sass安装不了苦恼（相同或类似的问题）</li><li>不仅仅是node-sass，其他模块如此类问题，同样可以解决</li><li>你将获得处理此类问题的，多种解决方案</li><li>你将了解到出现此类问题的原因，以及如何避免此类问题</li></ol></blockquote><h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>找到输出信息里的关键词<code>user &quot;root&quot; does not have permission to access the dev dir</code></p><p>貌似是权限问题，但有时候是<code>root</code>用户了，为什么会有权限问题？</p><p>解决问题的方案有下面几种：</p><h2 id="方案一-添加参数（–unsafe-perm）"><a href="#方案一-添加参数（–unsafe-perm）" class="headerlink" title="方案一 添加参数（–unsafe-perm）"></a>方案一 添加参数（–unsafe-perm）</h2><p>在安装<code>node-sass</code>时，使用参数<code>--unsafe-perm</code></p><p>例如：</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --unsafe-perm <span class="keyword">node</span><span class="title">-sass</span></span><br></pre></td></tr></table></figure><p>解析：</p><p><code>--unsafe-perm</code> 在root下默认值为false,其他的默认值为true</p><p>设置为true,在run package script时会切换UID/GID<br>明确设置为false,在非root用户下安装会失败</p><h2 id="方案二-添加参数-–user-root"><a href="#方案二-添加参数-–user-root" class="headerlink" title="方案二 添加参数(–user=root)"></a>方案二 添加参数(–user=root)</h2><p>在安装<code>node-sass</code>时，使用参数<code>--user=root</code></p><p>例如：</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --<span class="attr">user=</span>root <span class="keyword">node</span><span class="title">-sass</span></span><br></pre></td></tr></table></figure><p>该参数指定了再执行脚本时使用的账号(UID),默认是<code>nobody</code>      </p><h2 id="方案四-修改现有node的权限"><a href="#方案四-修改现有node的权限" class="headerlink" title="方案四 修改现有node的权限"></a>方案四 修改现有node的权限</h2><p>如果你是直接使用了已经编译后的node版本</p><p><img src="../images/2018/node-download.png" alt=""></p><p>那么你解压之后的目录权限可能是这样的</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  <span class="number">7</span> dev  dev  <span class="number">4.0</span>K <span class="number">3</span>月  <span class="number">24</span> <span class="number">11</span>:<span class="number">25</span> <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure><p>也可能是这样的</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  <span class="number">7</span> <span class="number">500</span>  <span class="number">500</span>  <span class="number">4.0</span>K <span class="number">3</span>月  <span class="number">24</span> <span class="number">11</span>:<span class="number">25</span> <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure><p>这里就需要修改node目录的权限为<code>root</code></p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown root:root <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure><h2 id="方案四-重新安装node-推荐使用nvm"><a href="#方案四-重新安装node-推荐使用nvm" class="headerlink" title="方案四 重新安装node(推荐使用nvm)"></a>方案四 重新安装node(推荐使用nvm)</h2><p>nvm是个node版本管理工具，可以方便的下载安装node，并且可以方便的切换node版本</p><p>这是直接贴上nvm地址，如何安装<a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">看文档</a></p><h2 id="方案五-npm提供的解决方案（How-to-Prevent-Permissions-Errors）"><a href="#方案五-npm提供的解决方案（How-to-Prevent-Permissions-Errors）" class="headerlink" title="方案五 npm提供的解决方案（How to Prevent Permissions Errors）"></a>方案五 npm提供的解决方案（How to Prevent Permissions Errors）</h2><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 创建.npm-global目录</span></span><br><span class="line">mkdir ~/.<span class="built_in">npm</span>-<span class="built_in">global</span></span><br><span class="line"><span class="comment">## 设置</span></span><br><span class="line"><span class="built_in">npm</span> config set prefix <span class="string">'~/.npm-global'</span></span><br><span class="line"><span class="keyword">export</span> PATH=~/.<span class="built_in">npm</span>-<span class="built_in">global</span>/bin:$PATH</span><br><span class="line">source ~/.profile</span><br></pre></td></tr></table></figure><p>通过上述方法的其中一种，就可以解决问题。</p><p></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://docs.npmjs.com/misc/config#unsafe-perm" target="_blank" rel="noopener">unsafe-perm</a></li><li><a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions" target="_blank" rel="noopener">fixing-npm-permissions</a></li><li><a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b" target="_blank" rel="noopener">npx</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      在mac OS或liunx系统下，有时候在安装node-sass时会出现，Permissions Errors 的错误提示，那么这种情况下，我们要怎么处理呢。
+    
+    </summary>
+    
+    
+      <category term="node-sass" scheme="http://www.devsai.com/tags/node-sass/"/>
+    
+  </entry>
   
   <entry>
     <title>了解Webp</title>
@@ -470,30 +490,6 @@
       <category term="前端" scheme="http://www.devsai.com/tags/%E5%89%8D%E7%AB%AF/"/>
     
       <category term="css" scheme="http://www.devsai.com/tags/css/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Liunx环境压缩</title>
-    <link href="http://www.devsai.com/2015/05/25/liunx%E7%8E%AF%E5%A2%83%E5%8E%8B%E7%BC%A9/"/>
-    <id>http://www.devsai.com/2015/05/25/liunx环境压缩/</id>
-    <published>2015-05-25T08:36:59.000Z</published>
-    <updated>2017-09-23T02:41:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="普通压缩"><a href="#普通压缩" class="headerlink" title="普通压缩"></a>普通压缩</h2><hr><p>在liunx环境中最常用的压缩应该就是<code>tar</code>。 所以只对<code>tar</code>做下记录。当然还有很多的压缩方式可用。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span> filename ...</span><br></pre></td></tr></table></figure></p><p>解压<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span>  path</span><br></pre></td></tr></table></figure></p><h2 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h2><hr><p>我是很注重隐私的，所以有时候，对一些文件压缩的同时，还需要加密。+_+</p><p>压缩加密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf  - filename |<span class="type">openssl</span> des3 -salt -k password | <span class="type">dd</span> of=filename.des3</span><br></pre></td></tr></table></figure></p><p>此命令对filename文件进行加码压缩 生成filename.des3加密压缩文件， password 为加密的密码</p><p>解压解密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=filename.des3 |<span class="type">openssl</span> des3 -d -k password | <span class="type">tar</span> zxf -</span><br></pre></td></tr></table></figure></p><p>注意命令最后面的“-”  它将释放所有文件， -k password 可以没有，没有时在解压时会提示输入密码</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;普通压缩&quot;&gt;&lt;a href=&quot;#普通压缩&quot; class=&quot;headerlink&quot; title=&quot;普通压缩&quot;&gt;&lt;/a&gt;普通压缩&lt;/h2&gt;&lt;hr&gt;
-&lt;p&gt;在liunx环境中最常用的压缩应该就是&lt;code&gt;tar&lt;/code&gt;。 所以只对&lt;code&gt;tar&lt;/code&gt;
-      
-    
-    </summary>
-    
-    
-      <category term="liunx" scheme="http://www.devsai.com/tags/liunx/"/>
     
   </entry>
   

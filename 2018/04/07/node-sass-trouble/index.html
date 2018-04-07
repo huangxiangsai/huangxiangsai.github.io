@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Node-Sass安装失败引发的思考 | SAI的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在mac OS或liunx系统下，有时候在安装node-sass时会出现，Permissions Errors 的错误提示，那么这种情况下，我们要怎么处理呢。">
+<meta name="keywords" content="node-sass">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node-Sass安装失败引发的思考">
+<meta property="og:url" content="http://www.devsai.com/2018/04/07/node-sass-trouble/index.html">
+<meta property="og:site_name" content="SAI的技术博客">
+<meta property="og:description" content="在mac OS或liunx系统下，有时候在安装node-sass时会出现，Permissions Errors 的错误提示，那么这种情况下，我们要怎么处理呢。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devsai.com/2018/04/07/images/2018/node-sass-reinstall-error.png">
+<meta property="og:image" content="http://www.devsai.com/2018/04/07/images/2018/node-download.png">
+<meta property="og:updated_time" content="2018-04-07T12:35:32.826Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node-Sass安装失败引发的思考">
+<meta name="twitter:description" content="在mac OS或liunx系统下，有时候在安装node-sass时会出现，Permissions Errors 的错误提示，那么这种情况下，我们要怎么处理呢。">
+<meta name="twitter:image" content="http://www.devsai.com/2018/04/07/images/2018/node-sass-reinstall-error.png">
+  
+    <link rel="alternate" href="/atom.xml" title="SAI的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap" unselectable="on">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://www.devsai.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SAI的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">最可怕的敌人，就是没有坚强的信念。</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-node-sass-trouble" class="article article-type-post  " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/04/07/node-sass-trouble/" class="article-date">
+  <time datetime="2018-04-06T16:00:00.000Z" itemprop="datePublished">2018-04-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Node-Sass安装失败引发的思考
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>在mac OS或liunx系统下，有时候在安装node-sass时会出现，<code>Permissions Errors</code></p>
+<p>可能出现的情况是这样:</p>
+<p><img src="../images/2018/node-sass-reinstall-error.png" alt="loop reinstall"></p>
+<hr>
+<p><strong>阅读后你将得到什么</strong></p>
+<blockquote>
+<ol>
+<li>你将成功的解决node-sass安装不了苦恼（相同或类似的问题）</li>
+<li>不仅仅是node-sass，其他模块如此类问题，同样可以解决</li>
+<li>你将获得处理此类问题的，多种解决方案</li>
+<li>你将了解到出现此类问题的原因，以及如何避免此类问题</li>
+</ol>
+</blockquote>
+<h2 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h2><p>找到输出信息里的关键词<code>user &quot;root&quot; does not have permission to access the dev dir</code></p>
+<p>貌似是权限问题，但有时候是<code>root</code>用户了，为什么会有权限问题？</p>
+<p>解决问题的方案有下面几种：</p>
+<h2 id="方案一-添加参数（–unsafe-perm）"><a href="#方案一-添加参数（–unsafe-perm）" class="headerlink" title="方案一 添加参数（–unsafe-perm）"></a>方案一 添加参数（–unsafe-perm）</h2><p>在安装<code>node-sass</code>时，使用参数<code>--unsafe-perm</code></p>
+<p>例如：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --unsafe-perm <span class="keyword">node</span><span class="title">-sass</span></span><br></pre></td></tr></table></figure>
+<p>解析：</p>
+<p><code>--unsafe-perm</code> 在root下默认值为false,其他的默认值为true</p>
+<p>设置为true,在run package script时会切换UID/GID<br>明确设置为false,在非root用户下安装会失败</p>
+<h2 id="方案二-添加参数-–user-root"><a href="#方案二-添加参数-–user-root" class="headerlink" title="方案二 添加参数(–user=root)"></a>方案二 添加参数(–user=root)</h2><p>在安装<code>node-sass</code>时，使用参数<code>--user=root</code></p>
+<p>例如：</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --<span class="attr">user=</span>root <span class="keyword">node</span><span class="title">-sass</span></span><br></pre></td></tr></table></figure>
+<p>该参数指定了再执行脚本时使用的账号(UID),默认是<code>nobody</code>      </p>
+<h2 id="方案四-修改现有node的权限"><a href="#方案四-修改现有node的权限" class="headerlink" title="方案四 修改现有node的权限"></a>方案四 修改现有node的权限</h2><p>如果你是直接使用了已经编译后的node版本</p>
+<p><img src="../images/2018/node-download.png" alt=""></p>
+<p>那么你解压之后的目录权限可能是这样的</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  <span class="number">7</span> dev  dev  <span class="number">4.0</span>K <span class="number">3</span>月  <span class="number">24</span> <span class="number">11</span>:<span class="number">25</span> <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure>
+<p>也可能是这样的</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x  <span class="number">7</span> <span class="number">500</span>  <span class="number">500</span>  <span class="number">4.0</span>K <span class="number">3</span>月  <span class="number">24</span> <span class="number">11</span>:<span class="number">25</span> <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure>
+<p>这里就需要修改node目录的权限为<code>root</code></p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown root:root <span class="keyword">node</span><span class="title">-v8</span>.<span class="number">10.0</span>-linux-x64</span><br></pre></td></tr></table></figure>
+<h2 id="方案四-重新安装node-推荐使用nvm"><a href="#方案四-重新安装node-推荐使用nvm" class="headerlink" title="方案四 重新安装node(推荐使用nvm)"></a>方案四 重新安装node(推荐使用nvm)</h2><p>nvm是个node版本管理工具，可以方便的下载安装node，并且可以方便的切换node版本</p>
+<p>这是直接贴上nvm地址，如何安装<a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">看文档</a></p>
+<h2 id="方案五-npm提供的解决方案（How-to-Prevent-Permissions-Errors）"><a href="#方案五-npm提供的解决方案（How-to-Prevent-Permissions-Errors）" class="headerlink" title="方案五 npm提供的解决方案（How to Prevent Permissions Errors）"></a>方案五 npm提供的解决方案（How to Prevent Permissions Errors）</h2><figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 创建.npm-global目录</span></span><br><span class="line">mkdir ~/.<span class="built_in">npm</span>-<span class="built_in">global</span></span><br><span class="line"><span class="comment">## 设置</span></span><br><span class="line"><span class="built_in">npm</span> config set prefix <span class="string">'~/.npm-global'</span></span><br><span class="line"><span class="keyword">export</span> PATH=~/.<span class="built_in">npm</span>-<span class="built_in">global</span>/bin:$PATH</span><br><span class="line">source ~/.profile</span><br></pre></td></tr></table></figure>
+<p>通过上述方法的其中一种，就可以解决问题。</p>
+<p></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://docs.npmjs.com/misc/config#unsafe-perm" target="_blank" rel="noopener">unsafe-perm</a></li>
+<li><a href="https://docs.npmjs.com/getting-started/fixing-npm-permissions" target="_blank" rel="noopener">fixing-npm-permissions</a></li>
+<li><a href="https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b" target="_blank" rel="noopener">npx</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2018/04/07/node-sass-trouble/" data-id="cjfpcy3x80000hnv9iz813s8s" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-sass/">node-sass</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/01/2018-webp/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">了解Webp</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#错误分析"><span class="toc-number">1.</span> <span class="toc-text">错误分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案一-添加参数（–unsafe-perm）"><span class="toc-number">2.</span> <span class="toc-text">方案一 添加参数（–unsafe-perm）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案二-添加参数-–user-root"><span class="toc-number">3.</span> <span class="toc-text">方案二 添加参数(–user=root)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案四-修改现有node的权限"><span class="toc-number">4.</span> <span class="toc-text">方案四 修改现有node的权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案四-重新安装node-推荐使用nvm"><span class="toc-number">5.</span> <span class="toc-text">方案四 重新安装node(推荐使用nvm)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方案五-npm提供的解决方案（How-to-Prevent-Permissions-Errors）"><span class="toc-number">6.</span> <span class="toc-text">方案五 npm提供的解决方案（How to Prevent Permissions Errors）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 SAI&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;devsai.huang1@gmail.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "35e092d29c3b4b4fab3fa467d255b8ef",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+<script src="/js/algoliasearch.min.js"></script>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
