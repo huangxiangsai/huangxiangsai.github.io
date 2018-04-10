@@ -74,6 +74,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-liunx环境压缩" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/05/25/liunx环境压缩/" class="article-date">
+  <time datetime="2015-05-25T08:36:59.000Z" itemprop="datePublished">2015-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/25/liunx环境压缩/">Liunx环境压缩</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="普通压缩"><a href="#普通压缩" class="headerlink" title="普通压缩"></a>普通压缩</h2><hr>
+<p>在liunx环境中最常用的压缩应该就是<code>tar</code>。 所以只对<code>tar</code>做下记录。当然还有很多的压缩方式可用。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span> filename ...</span><br></pre></td></tr></table></figure></p>
+<p>解压<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span>  path</span><br></pre></td></tr></table></figure></p>
+<h2 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h2><hr>
+<p>我是很注重隐私的，所以有时候，对一些文件压缩的同时，还需要加密。+_+</p>
+<p>压缩加密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf  - filename |<span class="type">openssl</span> des3 -salt -k password | <span class="type">dd</span> of=filename.des3</span><br></pre></td></tr></table></figure></p>
+<p>此命令对filename文件进行加码压缩 生成filename.des3加密压缩文件， password 为加密的密码</p>
+<p>解压解密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=filename.des3 |<span class="type">openssl</span> des3 -d -k password | <span class="type">tar</span> zxf -</span><br></pre></td></tr></table></figure></p>
+<p>注意命令最后面的“-”  它将释放所有文件， -k password 可以没有，没有时在解压时会提示输入密码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.devsai.com/2015/05/25/liunx环境压缩/" data-id="cjftnxrnm002itnv9xsnn78pl" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-liunx修改时区" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2015/05/25/liunx修改时区/" class="article-date">
@@ -114,58 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2015/05/25/liunx修改时区/" data-id="cjftnvuki002fqov94d9yj0eb" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liunx/">liunx</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
- 
-
-
-  
-    <article id="post-liunx环境压缩" class="article article-type-post article-post-index " itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/05/25/liunx环境压缩/" class="article-date">
-  <time datetime="2015-05-25T08:36:59.000Z" itemprop="datePublished">2015-05-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/25/liunx环境压缩/">Liunx环境压缩</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <!-- Table of Contents -->
-        
-        <h2 id="普通压缩"><a href="#普通压缩" class="headerlink" title="普通压缩"></a>普通压缩</h2><hr>
-<p>在liunx环境中最常用的压缩应该就是<code>tar</code>。 所以只对<code>tar</code>做下记录。当然还有很多的压缩方式可用。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span> filename ...</span><br></pre></td></tr></table></figure></p>
-<p>解压<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf filename<span class="selector-class">.tar</span><span class="selector-class">.gz</span>  path</span><br></pre></td></tr></table></figure></p>
-<h2 id="加密压缩"><a href="#加密压缩" class="headerlink" title="加密压缩"></a>加密压缩</h2><hr>
-<p>我是很注重隐私的，所以有时候，对一些文件压缩的同时，还需要加密。+_+</p>
-<p>压缩加密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf  - filename |<span class="type">openssl</span> des3 -salt -k password | <span class="type">dd</span> of=filename.des3</span><br></pre></td></tr></table></figure></p>
-<p>此命令对filename文件进行加码压缩 生成filename.des3加密压缩文件， password 为加密的密码</p>
-<p>解压解密<br><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd <span class="keyword">if</span>=filename.des3 |<span class="type">openssl</span> des3 -d -k password | <span class="type">tar</span> zxf -</span><br></pre></td></tr></table></figure></p>
-<p>注意命令最后面的“-”  它将释放所有文件， -k password 可以没有，没有时在解压时会提示输入密码</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2015/05/25/liunx环境压缩/" data-id="cjftnvukk002hqov9a3qnw20f" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2015/05/25/liunx修改时区/" data-id="cjftnxrnj002ftnv9zfurjevq" class="article-share-link">分享</a>
       
       
       
@@ -229,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2015/04/25/检测浏览器支持html5特性/" data-id="cjftnvuld0036qov9hxqpyrv3" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2015/04/25/检测浏览器支持html5特性/" data-id="cjftnxro10031tnv9qhgzlfic" class="article-share-link">分享</a>
       
       
       
@@ -282,7 +282,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2014/11/25/liunx-use-vim/" data-id="cjftnvukg002cqov906auumcd" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2014/11/25/liunx-use-vim/" data-id="cjftnxrnf002atnv9nrbygqn0" class="article-share-link">分享</a>
       
       
       
@@ -327,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2014/11/18/liunx-find-files/" data-id="cjftnvukf002aqov9lkf06iar" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2014/11/18/liunx-find-files/" data-id="cjftnxrnb0023tnv9djigtmlf" class="article-share-link">分享</a>
       
       
       
@@ -374,7 +374,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2014/11/02/JavaScript精粹之函数(一)/" data-id="cjftnvuk1001mqov9qe5s0vre" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2014/11/02/JavaScript精粹之函数(一)/" data-id="cjftnxrnc0025tnv9lv0c69sf" class="article-share-link">分享</a>
       
       
       
@@ -438,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2014/10/15/shell-deploysystem/" data-id="cjftnvul3002xqov9ijhh3s3o" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2014/10/15/shell-deploysystem/" data-id="cjftnxrnt002qtnv9axeht86o" class="article-share-link">分享</a>
       
       
       
@@ -563,7 +563,7 @@ unzip p10404530_112030_Linux-x86-64_2of7.zip
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.devsai.com/2014/10/05/readhat-install-oracle/" data-id="cjftnvul0002sqov9h33jq5my" class="article-share-link">分享</a>
+      <a data-url="http://www.devsai.com/2014/10/05/readhat-install-oracle/" data-id="cjftnxrnq002mtnv9yf3mjwjf" class="article-share-link">分享</a>
       
       
       
